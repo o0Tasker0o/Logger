@@ -1,8 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 namespace LoggerLib
 {
     public class LogEntry
     {
+        [Key]
+        public long EntryId { get; private set; }
+
         public String Text
         {
             get;
@@ -13,6 +17,11 @@ namespace LoggerLib
         {
             get;
             private set;
+        }
+
+        private LogEntry()
+        {
+            //Required for Entity framework
         }
 
         public LogEntry(string text)
