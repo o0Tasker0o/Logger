@@ -6,33 +6,50 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerLib", "LoggerLib\LoggerLib.csproj", "{C1C5B13B-0544-4544-9721-CC1CF6B226FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerLibTests", "LoggerLibTests\LoggerLibTests.csproj", "{9666ABA5-A69D-4210-AC79-EF0BF670B975}"
+	ProjectSection(ProjectDependencies) = postProject
+		{19A1267B-20B1-4546-8D16-4E6473BF77F5} = {19A1267B-20B1-4546-8D16-4E6473BF77F5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerConsole", "LoggerConsole\LoggerConsole.csproj", "{17F99B7E-814B-416D-96B6-8B41752B74DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerConsoleTests", "LoggerConsoleTests\LoggerConsoleTests.csproj", "{19A1267B-20B1-4546-8D16-4E6473BF77F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D5FC5DA5-6DC2-43BF-9C5B-41082CF267BD}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		TestCoverage|Any CPU = TestCoverage|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C1C5B13B-0544-4544-9721-CC1CF6B226FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1C5B13B-0544-4544-9721-CC1CF6B226FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1C5B13B-0544-4544-9721-CC1CF6B226FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1C5B13B-0544-4544-9721-CC1CF6B226FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C5B13B-0544-4544-9721-CC1CF6B226FF}.TestCoverage|Any CPU.ActiveCfg = TestCoverage|Any CPU
+		{C1C5B13B-0544-4544-9721-CC1CF6B226FF}.TestCoverage|Any CPU.Build.0 = TestCoverage|Any CPU
 		{9666ABA5-A69D-4210-AC79-EF0BF670B975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9666ABA5-A69D-4210-AC79-EF0BF670B975}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9666ABA5-A69D-4210-AC79-EF0BF670B975}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9666ABA5-A69D-4210-AC79-EF0BF670B975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9666ABA5-A69D-4210-AC79-EF0BF670B975}.TestCoverage|Any CPU.ActiveCfg = TestCoverage|Any CPU
+		{9666ABA5-A69D-4210-AC79-EF0BF670B975}.TestCoverage|Any CPU.Build.0 = TestCoverage|Any CPU
 		{17F99B7E-814B-416D-96B6-8B41752B74DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17F99B7E-814B-416D-96B6-8B41752B74DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17F99B7E-814B-416D-96B6-8B41752B74DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17F99B7E-814B-416D-96B6-8B41752B74DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17F99B7E-814B-416D-96B6-8B41752B74DE}.TestCoverage|Any CPU.ActiveCfg = TestCoverage|Any CPU
+		{17F99B7E-814B-416D-96B6-8B41752B74DE}.TestCoverage|Any CPU.Build.0 = TestCoverage|Any CPU
 		{19A1267B-20B1-4546-8D16-4E6473BF77F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19A1267B-20B1-4546-8D16-4E6473BF77F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19A1267B-20B1-4546-8D16-4E6473BF77F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19A1267B-20B1-4546-8D16-4E6473BF77F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19A1267B-20B1-4546-8D16-4E6473BF77F5}.TestCoverage|Any CPU.ActiveCfg = TestCoverage|Any CPU
+		{19A1267B-20B1-4546-8D16-4E6473BF77F5}.TestCoverage|Any CPU.Build.0 = TestCoverage|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
