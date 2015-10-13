@@ -2,7 +2,7 @@
 
 namespace LoggerLib
 {
-    public class LoggerDbContext : DbContext
+    internal class LoggerDbContext : DbContext
     {
         public LoggerDbContext()
         {

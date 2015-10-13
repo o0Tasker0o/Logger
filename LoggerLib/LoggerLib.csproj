@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILog.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="LoggerDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
