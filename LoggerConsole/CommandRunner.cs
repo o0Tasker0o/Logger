@@ -81,7 +81,7 @@ namespace LoggerConsole
 
             foreach (var logEntry in logEntries)
             {
-                mConsole.WriteLine(logEntry.CreatedTime + "> " + logEntry.Text);
+                mConsole.WriteLine(logEntry.ToString());
             }
 
             mConsole.WriteLine("");

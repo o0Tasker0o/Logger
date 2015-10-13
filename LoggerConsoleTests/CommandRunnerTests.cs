@@ -76,7 +76,7 @@ namespace LoggerConsoleTests
             mockConsole.Received(5).ReadLine();
             mockLog.Received(1).GetEntries();
 
-            mockConsole.Received(1).WriteLine(testEntry.CreatedTime + "> " + testEntry.Text);
+            mockConsole.Received(1).WriteLine(testEntry.ToString());
         }
 
         [TestMethod]

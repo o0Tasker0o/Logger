@@ -39,5 +39,10 @@ namespace LoggerLib
             Text = text;
             CreatedTime = DateTime.Now;
         }
+
+        public override string ToString()
+        {
+            return CreatedTime.ToString("dd/MM/yy HH:mm") + "> " + Text;
+        }
     }
 }

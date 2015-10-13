@@ -41,5 +41,17 @@ namespace LoggerLibTests
 
             Assert.AreEqual(cEntryText, entry.Text);
         }
+
+        [TestMethod]
+        public void LogEntryToStringDisplaysDateTimeAndEntry()
+        {
+            LogEntry entry = new LogEntry("This is a log entry");
+
+            string expectedString = entry.CreatedTime.ToString("dd/MM/yy HH:mm") +
+                                    "> " +
+                                    entry.Text;
+
+            Assert.AreEqual(expectedString, entry.ToString());
+        }
     }
 }
