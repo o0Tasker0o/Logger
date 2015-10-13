@@ -33,7 +33,9 @@ namespace LoggerConsole
 
             while (mRunning)
             {
+                mConsole.SetColour(ConsoleColor.Green);
                 mConsole.Write("> ");
+                mConsole.SetColour(ConsoleColor.Gray);
                 ExecuteCommand(mConsole.ReadLine());
             }
         }
@@ -60,16 +62,22 @@ namespace LoggerConsole
 
         private void DisplayLogEntries()
         {
+            mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.WriteLine("Please enter the term you wish to search for:");
 
+            mConsole.SetColour(ConsoleColor.Gray);
             String searchTerm = mConsole.ReadLine();
 
+            mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.WriteLine("Please enter the date to start searching from:");
 
+            mConsole.SetColour(ConsoleColor.Gray);
             DateTime startDate = DateTime.Parse(mConsole.ReadLine());
 
+            mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.WriteLine("Please enter the date to search up to:");
 
+            mConsole.SetColour(ConsoleColor.Gray);
             DateTime endDate = DateTime.Parse(mConsole.ReadLine());
 
             var logEntries = from logEntry in mLog.GetEntries()
@@ -84,8 +92,10 @@ namespace LoggerConsole
                 mConsole.WriteLine(logEntry.ToString());
             }
 
+            mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.WriteLine("");
             mConsole.WriteLine("End of logs. Type to make another entry");
+            mConsole.SetColour(ConsoleColor.Gray);
         }
     }
 }

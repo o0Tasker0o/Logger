@@ -18,5 +18,10 @@ namespace LoggerConsole
         {
             Console.Write(text);
         }
+
+        public void SetColour(ConsoleColor colour)
+        {
+            Console.ForegroundColor = colour;
+        }
     }
 }
