@@ -142,5 +142,49 @@ namespace LoggerConsoleTests
 
             mockConsole.Received(0).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
         }
+
+        [TestMethod]
+        public void CommandRunnerRequestsStartDateUntilEnteredCorrectly()
+        {
+            IConsole mockConsole = Substitute.For<IConsole>();
+            ILog mockLog = Substitute.For<ILog>();
+
+            LogEntry testEntry = new LogEntry("search text");
+            List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
+            mockLog.GetEntries().Returns(testEntries);
+
+            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
+            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
+            mockConsole.ReadLine().Returns(">", testEntry.Text, "INVALID DATE 1", yesterday.ToString(), tomorrow.ToString(), "");
+
+            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+
+            mockConsole.Received(6).ReadLine();
+            mockLog.Received(1).GetEntries();
+
+            mockConsole.Received(1).WriteLine(testEntry.ToString());
+        }
+
+        [TestMethod]
+        public void CommandRunnerRequestsEndDateUntilEnteredCorrectly()
+        {
+            IConsole mockConsole = Substitute.For<IConsole>();
+            ILog mockLog = Substitute.For<ILog>();
+
+            LogEntry testEntry = new LogEntry("search text");
+            List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
+            mockLog.GetEntries().Returns(testEntries);
+
+            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
+            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
+            mockConsole.ReadLine().Returns(">", testEntry.Text, yesterday.ToString(), "INVALID DATE 1", tomorrow.ToString(), "");
+
+            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+
+            mockConsole.Received(6).ReadLine();
+            mockLog.Received(1).GetEntries();
+
+            mockConsole.Received(1).WriteLine(testEntry.ToString());
+        }
     }
 }

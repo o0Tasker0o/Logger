@@ -68,17 +68,24 @@ namespace LoggerConsole
             mConsole.SetColour(ConsoleColor.Gray);
             String searchTerm = mConsole.ReadLine();
 
-            mConsole.SetColour(ConsoleColor.DarkCyan);
-            mConsole.WriteLine("Please enter the date to start searching from:");
-
             mConsole.SetColour(ConsoleColor.Gray);
-            DateTime startDate = DateTime.Parse(mConsole.ReadLine());
 
-            mConsole.SetColour(ConsoleColor.DarkCyan);
-            mConsole.WriteLine("Please enter the date to search up to:");
+            DateTime startDate;
+            DateTime endDate;
 
-            mConsole.SetColour(ConsoleColor.Gray);
-            DateTime endDate = DateTime.Parse(mConsole.ReadLine());
+            do
+            {
+                mConsole.SetColour(ConsoleColor.DarkCyan);
+                mConsole.WriteLine("Please enter the date to start searching from:");
+                mConsole.SetColour(ConsoleColor.Gray);
+            } while (!DateTime.TryParse(mConsole.ReadLine(), out startDate));
+
+            do
+            {
+                mConsole.SetColour(ConsoleColor.DarkCyan);
+                mConsole.WriteLine("Please enter the date to search up to:");
+                mConsole.SetColour(ConsoleColor.Gray);
+            } while (!DateTime.TryParse(mConsole.ReadLine(), out endDate));
 
             var logEntries = from logEntry in mLog.GetEntries()
                                 where logEntry.Text.Contains(searchTerm) &&
