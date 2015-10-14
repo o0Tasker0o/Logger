@@ -1,10 +1,7 @@
 ﻿using LoggerLib;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoggerConsole
 {
@@ -12,6 +9,7 @@ namespace LoggerConsole
     {
         private IConsole mConsole;
         private ILog mLog;
+        private IEnumerable<LogEntry> mSearchResults;
 
         private bool mRunning;
 
@@ -44,7 +42,7 @@ namespace LoggerConsole
         {
             if(command.StartsWith(">"))
             {
-                DisplayLogEntries();
+                ExecuteSubCommand(command.Replace(">", ""));
             }
             else if(string.IsNullOrEmpty(command))
             {
@@ -55,30 +53,40 @@ namespace LoggerConsole
                 StoreLogEntry(command);
             }
         }
+
+        private void ExecuteSubCommand(string command)
+        {
+            switch(command)
+            {
+                case "rs":
+                    SearchAndDisplayFilteredLogEntries();
+                    break;
+                default:
+                    SearchAndDisplayLogEntries();
+                    break;
+            }
+        }
+
         private void StoreLogEntry(String entryText)
         {
             mLog.AddEntry(new LogEntry(entryText));
         }
 
-        private void DisplayLogEntries()
+        private void SearchAndDisplayLogEntries()
         {
-            mConsole.SetColour(ConsoleColor.DarkCyan);
-            mConsole.Write("Please enter the term you wish to search for: ");
+            mSearchResults = GetSearchResults(mLog.GetEntries());
+            DisplayMyLogEntries();
+        }
 
-            mConsole.SetColour(ConsoleColor.Gray);
-            String [] searchTerms = mConsole.ReadLine().Split(' ');
+        private void SearchAndDisplayFilteredLogEntries()
+        {
+            mSearchResults = GetSearchResults(mSearchResults);
+            DisplayMyLogEntries();
+        }
 
-            DateTime startDate = GetDate("Please enter the date to start searching from: ");
-            DateTime endDate = GetDate("Please enter the date to search up to: ");
-
-            var logEntries = from logEntry in mLog.GetEntries()
-                             where searchTerms.Any(logEntry.Text.Contains) &&
-                             logEntry.CreatedTime > startDate &&
-                             logEntry.CreatedTime < endDate
-                             orderby logEntry.CreatedTime
-                             select logEntry;
-
-            foreach (var logEntry in logEntries)
+        private void DisplayMyLogEntries()
+        {
+            foreach (var logEntry in mSearchResults)
             {
                 mConsole.WriteLine(logEntry.ToString());
             }
@@ -87,6 +95,25 @@ namespace LoggerConsole
             mConsole.WriteLine("");
             mConsole.WriteLine("End of logs. Type to make another entry");
             mConsole.SetColour(ConsoleColor.Gray);
+        }
+
+        private IEnumerable<LogEntry> GetSearchResults(IEnumerable<LogEntry> entries)
+        {
+            mConsole.SetColour(ConsoleColor.DarkCyan);
+            mConsole.Write("Please enter the term you wish to search for: ");
+
+            mConsole.SetColour(ConsoleColor.Gray);
+            String[] searchTerms = mConsole.ReadLine().Split(' ');
+
+            DateTime startDate = GetDate("Please enter the date to start searching from: ");
+            DateTime endDate = GetDate("Please enter the date to search up to: ");
+
+            return from logEntry in entries
+                        where searchTerms.Any(logEntry.Text.Contains) &&
+                        logEntry.CreatedTime > startDate &&
+                        logEntry.CreatedTime < endDate
+                        orderby logEntry.CreatedTime
+                        select logEntry;
         }
 
         private DateTime GetDate(string instruction)
