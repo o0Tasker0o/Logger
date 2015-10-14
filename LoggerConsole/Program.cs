@@ -9,10 +9,20 @@ namespace LoggerConsole
     {
         static void Main(string[] args)
         {
+            Console.SetWindowSize(Console.WindowWidth, 60);
             Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
 
-            Console.WriteLine("Daily Log");
-            Console.WriteLine("Type to make an entry. Hit Enter for options");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@"                     ___       _ __       __");
+            Console.WriteLine(@"                    / _ \___ _(_) /_ __  / /  ___  ___ _");
+            Console.WriteLine(@"                   / // / _ `/ / / // / / /__/ _ \/ _ `/");
+            Console.WriteLine(@"                  /____/\_,_/_/_/\_, / /____/\___/\_, /");
+            Console.WriteLine(@"                                /___/            /___/");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("Type to make an entry. Type '>' to search or hit Enter to exit.");
+
+            Console.ForegroundColor = ConsoleColor.Gray;
 
             Log log = new Log();
             LogConsole console = new LogConsole();
