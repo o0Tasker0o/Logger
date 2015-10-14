@@ -1,5 +1,6 @@
 ﻿using LoggerLib;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace LoggerConsole
@@ -8,6 +9,8 @@ namespace LoggerConsole
     {
         static void Main(string[] args)
         {
+            Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
+
             Console.WriteLine("Daily Log");
             Console.WriteLine("Type to make an entry. Hit Enter for options");
 
