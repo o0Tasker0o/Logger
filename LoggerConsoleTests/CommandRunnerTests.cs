@@ -91,7 +91,7 @@ namespace LoggerConsoleTests
 
             DateTime yesterday = DateTime.Now.AddDays(-1).Date;
             DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">", "No entry contains this text", yesterday.ToString(), tomorrow.ToString(), "");
+            mockConsole.ReadLine().Returns(">", "No entry contains this string", yesterday.ToString(), tomorrow.ToString(), "");
 
             CommandRunner runner = new CommandRunner(mockConsole, mockLog);
 
@@ -185,6 +185,30 @@ namespace LoggerConsoleTests
             mockLog.Received(1).GetEntries();
 
             mockConsole.Received(1).WriteLine(testEntry.ToString());
+        }
+
+        [TestMethod]
+        public void CommandRunnerSearchesForEntriesContainingAnySearchElements()
+        {
+            IConsole mockConsole = Substitute.For<IConsole>();
+            ILog mockLog = Substitute.For<ILog>();
+
+            LogEntry testEntry1 = new LogEntry("entry containing element1");
+            LogEntry testEntry2 = new LogEntry("entry containing element2");
+            List<LogEntry> testEntries = new List<LogEntry>() { testEntry1, testEntry2 };
+            mockLog.GetEntries().Returns(testEntries);
+
+            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
+            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
+            mockConsole.ReadLine().Returns(">", "element1 element2", yesterday.ToString(), tomorrow.ToString(), "");
+
+            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+
+            mockConsole.Received(5).ReadLine();
+            mockLog.Received(1).GetEntries();
+
+            mockConsole.Received(1).WriteLine(testEntry1.ToString());
+            mockConsole.Received(1).WriteLine(testEntry2.ToString());
         }
     }
 }

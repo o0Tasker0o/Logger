@@ -66,17 +66,17 @@ namespace LoggerConsole
             mConsole.Write("Please enter the term you wish to search for: ");
 
             mConsole.SetColour(ConsoleColor.Gray);
-            String searchTerm = mConsole.ReadLine();
+            String [] searchTerms = mConsole.ReadLine().Split(' ');
 
             DateTime startDate = GetDate("Please enter the date to start searching from: ");
             DateTime endDate = GetDate("Please enter the date to search up to: ");
 
             var logEntries = from logEntry in mLog.GetEntries()
-                                where logEntry.Text.Contains(searchTerm) &&
-                                logEntry.CreatedTime > startDate &&
-                                logEntry.CreatedTime < endDate
-                                orderby logEntry.CreatedTime
-                                select logEntry;
+                             where searchTerms.Any(logEntry.Text.Contains) &&
+                             logEntry.CreatedTime > startDate &&
+                             logEntry.CreatedTime < endDate
+                             orderby logEntry.CreatedTime
+                             select logEntry;
 
             foreach (var logEntry in logEntries)
             {
