@@ -75,16 +75,16 @@ namespace LoggerConsole
         private void SearchAndDisplayLogEntries()
         {
             mSearchResults = GetSearchResults(mLog.GetEntries());
-            DisplayMyLogEntries();
+            DisplaySearchedLogEntries();
         }
 
         private void SearchAndDisplayFilteredLogEntries()
         {
             mSearchResults = GetSearchResults(mSearchResults);
-            DisplayMyLogEntries();
+            DisplaySearchedLogEntries();
         }
 
-        private void DisplayMyLogEntries()
+        private void DisplaySearchedLogEntries()
         {
             foreach (var logEntry in mSearchResults)
             {
