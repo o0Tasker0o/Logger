@@ -57,22 +57,34 @@ namespace LoggerConsoleTests
         [TestMethod]
         public void CommandRunnerSearchesForEntriesWhenGivenASearchCommandString()
         {
-            TestSearchCommand(">s");
+            TestSearchCommand(">s", mYesterday.ToString(), mTomorrow.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerSearchesForEntriesWhenGivenABlankCommandString()
         {
-            TestSearchCommand(">");
+            TestSearchCommand(">", mYesterday.ToString(), mTomorrow.ToString());
         }
 
-        private void TestSearchCommand(string searchCommand)
+        [TestMethod]
+        public void CommandRunnerInterpretsBlankStartDateStringAsEarliestDate()
+        {
+            TestSearchCommand(">s", "", mTomorrow.ToString());
+        }
+
+        [TestMethod]
+        public void CommandRunnerInterpretsBlankEndDateStringAsNow()
+        {
+            TestSearchCommand(">s", mYesterday.ToString(), "");
+        }
+
+        private void TestSearchCommand(string searchCommand, string startDate, string endDate)
         {
             LogEntry testEntry = new LogEntry("search text");
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(searchCommand, testEntry.Text, mYesterday.ToString(), mTomorrow.ToString(), "");
+            mMockConsole.ReadLine().Returns(searchCommand, testEntry.Text, startDate, endDate, "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
