@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="CommandRunnerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LogConsoleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoggerConsole\LoggerConsole.csproj">
