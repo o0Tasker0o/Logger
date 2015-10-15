@@ -10,253 +10,184 @@ namespace LoggerConsoleTests
     [TestClass]
     public class CommandRunnerTests
     {
+        private ILog mMockLog = Substitute.For<ILog>();
+        private IConsole mMockConsole = Substitute.For<IConsole>();
+        private readonly DateTime mYesterday = DateTime.Now.AddDays(-1).Date;
+        private readonly DateTime mTomorrow = DateTime.Now.AddDays(+1).Date;
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CommandRunnerThrowsExceptionWhenPassedNullConsole()
         {
-            ILog mockLog = Substitute.For<ILog>();
-            CommandRunner runner = new CommandRunner(null, mockLog);
+            CommandRunner runner = new CommandRunner(null, mMockLog);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CommandRunnerThrowsExceptionWhenPassedNullLog()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            CommandRunner runner = new CommandRunner(mockConsole, null);
+            CommandRunner runner = new CommandRunner(mMockConsole, null);
         }
 
         [TestMethod]
         public void CommandRunnerExitsWhenReadingBlankLine()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
+            mMockConsole.ReadLine().Returns("");
 
-            mockConsole.ReadLine().Returns("");
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
-
-            mockConsole.Received(1).ReadLine();
-            mockLog.DidNotReceive().AddEntry(Arg.Any<LogEntry>());
-            mockLog.DidNotReceive().GetEntries();
+            mMockConsole.Received(1).ReadLine();
+            mMockLog.DidNotReceive().AddEntry(Arg.Any<LogEntry>());
+            mMockLog.DidNotReceive().GetEntries();
         }
 
         [TestMethod]
         public void CommandRunnerAddsNewEntryWhenPlainTextEntered()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
             const string cEntryText = "This is a new log entry";
 
-            mockConsole.ReadLine().Returns(cEntryText, "");
+            mMockConsole.ReadLine().Returns(cEntryText, "");
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            mockConsole.Received(2).ReadLine();
-            mockLog.Received(1).AddEntry(Arg.Is<LogEntry>(entry => entry.Text == cEntryText));
-            mockLog.DidNotReceive().GetEntries();
+            mMockConsole.Received(2).ReadLine();
+            mMockLog.Received(1).AddEntry(Arg.Is<LogEntry>(entry => entry.Text == cEntryText));
+            mMockLog.DidNotReceive().GetEntries();
         }
 
         [TestMethod]
         public void CommandRunnerSearchesForEntriesWhenGivenASearchCommandString()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
-            LogEntry testEntry = new LogEntry("search text");
-            List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
-            mockLog.GetEntries().Returns(testEntries);
-
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">s", testEntry.Text, yesterday.ToString(), tomorrow.ToString(), "");
-
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
-
-            mockConsole.Received(5).ReadLine();
-            mockLog.Received(1).GetEntries();
-
-            mockConsole.Received(1).WriteLine(testEntry.ToString());
+            TestSearchCommand(">s");
         }
 
         [TestMethod]
         public void CommandRunnerSearchesForEntriesWhenGivenABlankCommandString()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
+            TestSearchCommand(">");
+        }
 
+        private void TestSearchCommand(string searchCommand)
+        {
             LogEntry testEntry = new LogEntry("search text");
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
-            mockLog.GetEntries().Returns(testEntries);
+            mMockLog.GetEntries().Returns(testEntries);
 
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">", testEntry.Text, yesterday.ToString(), tomorrow.ToString(), "");
+            mMockConsole.ReadLine().Returns(searchCommand, testEntry.Text, mYesterday.ToString(), mTomorrow.ToString(), "");
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            mockConsole.Received(5).ReadLine();
-            mockLog.Received(1).GetEntries();
+            mMockConsole.Received(5).ReadLine();
+            mMockLog.Received(1).GetEntries();
 
-            mockConsole.Received(1).WriteLine(testEntry.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerRetrievesNoEntriesIfSearchTextNotFound()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
-            LogEntry testEntry = new LogEntry("search text");
-            List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
-            mockLog.GetEntries().Returns(testEntries);
-
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">s", "No entry contains this string", yesterday.ToString(), tomorrow.ToString(), "");
-
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
-
-            mockConsole.Received(5).ReadLine();
-            mockLog.Received(1).GetEntries();
-
-            mockConsole.Received(0).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
+            TestSearchReturnsNothingWhenNoMatchesFound("search text", "no entry contains this string", mYesterday, mTomorrow);
         }
 
         [TestMethod]
         public void CommandRunnerRetrievesNoEntriesIfEntryIsAfterDateRange()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
-            LogEntry testEntry = new LogEntry("search text");
-            List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
-            mockLog.GetEntries().Returns(testEntries);
-
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            mockConsole.ReadLine().Returns(">s", testEntry.Text, yesterday.ToString(), yesterday.ToString(), "");
-
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
-
-            mockConsole.Received(5).ReadLine();
-            mockLog.Received(1).GetEntries();
-
-            mockConsole.Received(0).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
+            TestSearchReturnsNothingWhenNoMatchesFound("search text", "search text", mYesterday, mYesterday);
         }
 
         [TestMethod]
         public void CommandRunnerRetrievesNoEntriesIfEntryIsBeforeDateRange()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
+            TestSearchReturnsNothingWhenNoMatchesFound("search text", "search text", mTomorrow, mTomorrow);
+        }
 
-            LogEntry testEntry = new LogEntry("search text");
+        private void TestSearchReturnsNothingWhenNoMatchesFound(string entryText, string searchText, DateTime startDate, DateTime endDate)
+        {
+            LogEntry testEntry = new LogEntry(entryText);
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
-            mockLog.GetEntries().Returns(testEntries);
+            mMockLog.GetEntries().Returns(testEntries);
 
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">s", testEntry.Text, tomorrow.ToString(), tomorrow.ToString(), "");
+            mMockConsole.ReadLine().Returns(">s", searchText, startDate.ToString(), endDate.ToString(), "");
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            mockConsole.Received(5).ReadLine();
-            mockLog.Received(1).GetEntries();
+            mMockConsole.Received(5).ReadLine();
+            mMockLog.Received(1).GetEntries();
 
-            mockConsole.Received(0).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
+            mMockConsole.Received(0).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
         }
 
         [TestMethod]
         public void CommandRunnerRequestsStartDateUntilEnteredCorrectly()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
             LogEntry testEntry = new LogEntry("search text");
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
-            mockLog.GetEntries().Returns(testEntries);
+            mMockLog.GetEntries().Returns(testEntries);
 
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">s", testEntry.Text, "INVALID DATE 1", yesterday.ToString(), tomorrow.ToString(), "");
+            mMockConsole.ReadLine().Returns(">s", testEntry.Text, "INVALID DATE 1", mYesterday.ToString(), mTomorrow.ToString(), "");
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            mockConsole.Received(6).ReadLine();
-            mockLog.Received(1).GetEntries();
+            mMockConsole.Received(6).ReadLine();
+            mMockLog.Received(1).GetEntries();
 
-            mockConsole.Received(1).WriteLine(testEntry.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerRequestsEndDateUntilEnteredCorrectly()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
             LogEntry testEntry = new LogEntry("search text");
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
-            mockLog.GetEntries().Returns(testEntries);
+            mMockLog.GetEntries().Returns(testEntries);
 
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">s", testEntry.Text, yesterday.ToString(), "INVALID DATE 1", tomorrow.ToString(), "");
+            mMockConsole.ReadLine().Returns(">s", testEntry.Text, mYesterday.ToString(), "INVALID DATE 1", mTomorrow.ToString(), "");
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            mockConsole.Received(6).ReadLine();
-            mockLog.Received(1).GetEntries();
+            mMockConsole.Received(6).ReadLine();
+            mMockLog.Received(1).GetEntries();
 
-            mockConsole.Received(1).WriteLine(testEntry.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerSearchesForEntriesContainingAnySearchElements()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
             LogEntry testEntry1 = new LogEntry("entry containing element1");
             LogEntry testEntry2 = new LogEntry("entry containing element2");
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry1, testEntry2 };
-            mockLog.GetEntries().Returns(testEntries);
+            mMockLog.GetEntries().Returns(testEntries);
 
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">s", "element1 element2", yesterday.ToString(), tomorrow.ToString(), "");
+            mMockConsole.ReadLine().Returns(">s", "element1 element2", mYesterday.ToString(), mTomorrow.ToString(), "");
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            mockConsole.Received(5).ReadLine();
-            mockLog.Received(1).GetEntries();
+            mMockConsole.Received(5).ReadLine();
+            mMockLog.Received(1).GetEntries();
 
-            mockConsole.Received(1).WriteLine(testEntry1.ToString());
-            mockConsole.Received(1).WriteLine(testEntry2.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry1.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry2.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerCanSearchWithinRetrievedEntries()
         {
-            IConsole mockConsole = Substitute.For<IConsole>();
-            ILog mockLog = Substitute.For<ILog>();
-
             LogEntry testEntry1 = new LogEntry("entry 1");
             LogEntry testEntry2 = new LogEntry("entry 2");
             LogEntry testEntry3 = new LogEntry("other thing 1");
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry1, testEntry2, testEntry3 };
-            mockLog.GetEntries().Returns(testEntries);
+            mMockLog.GetEntries().Returns(testEntries);
 
-            DateTime yesterday = DateTime.Now.AddDays(-1).Date;
-            DateTime tomorrow = DateTime.Now.AddDays(+1).Date;
-            mockConsole.ReadLine().Returns(">s", "entry", yesterday.ToString(), tomorrow.ToString(), ">rs", "1", yesterday.ToString(), tomorrow.ToString(), "");
+            mMockConsole.ReadLine().Returns(">s", "entry", mYesterday.ToString(), mTomorrow.ToString(), ">rs", "1", mYesterday.ToString(), mTomorrow.ToString(), "");
 
-            CommandRunner runner = new CommandRunner(mockConsole, mockLog);
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
-            mockConsole.Received(9).ReadLine();
-            mockLog.Received(1).GetEntries();
+            mMockConsole.Received(9).ReadLine();
+            mMockLog.Received(1).GetEntries();
 
-            mockConsole.Received(2).WriteLine(testEntry1.ToString());
-            mockConsole.Received(1).WriteLine(testEntry2.ToString());
-            mockConsole.Received(0).WriteLine(testEntry3.ToString());
+            mMockConsole.Received(2).WriteLine(testEntry1.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry2.ToString());
+            mMockConsole.Received(0).WriteLine(testEntry3.ToString());
         }
     }
 }
