@@ -111,7 +111,7 @@ namespace LoggerConsoleTests
             mMockConsole.Received(5).ReadLine();
             mMockLog.Received(1).GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -162,7 +162,7 @@ namespace LoggerConsoleTests
             mMockConsole.Received(6).ReadLine();
             mMockLog.Received(1).GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -179,7 +179,7 @@ namespace LoggerConsoleTests
             mMockConsole.Received(6).ReadLine();
             mMockLog.Received(1).GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -197,8 +197,8 @@ namespace LoggerConsoleTests
             mMockConsole.Received(5).ReadLine();
             mMockLog.Received(1).GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry1.ToString());
-            mMockConsole.Received(1).WriteLine(testEntry2.ToString());
+            mMockConsole.Received(1).WriteLine(testEntry1.Text);
+            mMockConsole.Received(1).WriteLine(testEntry2.Text);
         }
 
         [TestMethod]
@@ -217,9 +217,9 @@ namespace LoggerConsoleTests
             mMockConsole.Received(9).ReadLine();
             mMockLog.Received(1).GetEntries();
 
-            mMockConsole.Received(2).WriteLine(testEntry1.ToString());
-            mMockConsole.Received(1).WriteLine(testEntry2.ToString());
-            mMockConsole.Received(0).WriteLine(testEntry3.ToString());
+            mMockConsole.Received(2).WriteLine(testEntry1.Text);
+            mMockConsole.Received(1).WriteLine(testEntry2.Text);
+            mMockConsole.Received(0).WriteLine(testEntry3.Text);
         }
     }
 }

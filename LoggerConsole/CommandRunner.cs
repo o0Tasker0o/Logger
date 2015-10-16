@@ -88,7 +88,10 @@ namespace LoggerConsole
         {
             foreach (var logEntry in mSearchResults)
             {
-                mConsole.WriteLine(logEntry.ToString());
+                mConsole.SetColour(ConsoleColor.Green);
+                mConsole.Write(logEntry.CreatedTime.ToString("dd/MM/yy hh:mm> "));
+                mConsole.SetColour(ConsoleColor.Gray);
+                mConsole.WriteLine(logEntry.Text);
             }
 
             mConsole.SetColour(ConsoleColor.DarkCyan);
