@@ -57,34 +57,54 @@ namespace LoggerConsoleTests
         [TestMethod]
         public void CommandRunnerSearchesForEntriesWhenGivenASearchCommandString()
         {
-            TestSearchCommand(">s", mYesterday.ToString(), mTomorrow.ToString());
+            const string cEntryText = "search text";
+            TestSearchCommand(">s", cEntryText, cEntryText, mYesterday.ToString(), mTomorrow.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerSearchesForEntriesWhenGivenABlankCommandString()
         {
-            TestSearchCommand(">", mYesterday.ToString(), mTomorrow.ToString());
+            const string cEntryText = "search text";
+            TestSearchCommand(">", cEntryText, cEntryText, mYesterday.ToString(), mTomorrow.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerInterpretsBlankStartDateStringAsEarliestDate()
         {
-            TestSearchCommand(">s", "", mTomorrow.ToString());
+            const string cEntryText = "search text";
+            TestSearchCommand(">s", cEntryText, cEntryText, "", mTomorrow.ToString());
         }
 
         [TestMethod]
         public void CommandRunnerInterpretsBlankEndDateStringAsNow()
         {
-            TestSearchCommand(">s", mYesterday.ToString(), "");
+            const string cEntryText = "search text";
+            TestSearchCommand(">s", cEntryText, cEntryText, mYesterday.ToString(), "");
         }
 
-        private void TestSearchCommand(string searchCommand, string startDate, string endDate)
+        [TestMethod]
+        public void CommandRunnerSearchIsCaseInsensitiveForSearchTerms()
         {
-            LogEntry testEntry = new LogEntry("search text");
+            string entryText = "search text";
+            string searchText = entryText.ToUpper();
+            TestSearchCommand(">s", searchText, entryText, mYesterday.ToString(), "");
+        }
+
+        [TestMethod]
+        public void CommandRunnerSearchIsCaseInsensitiveForEntryText()
+        {
+            string searchText = "search text";
+            string entryText = searchText.ToUpper();
+            TestSearchCommand(">s", searchText, entryText, mYesterday.ToString(), "");
+        }
+
+        private void TestSearchCommand(string searchCommand, string searchText, string entryText, string startDate, string endDate)
+        {
+            LogEntry testEntry = new LogEntry(entryText);
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(searchCommand, testEntry.Text, startDate, endDate, "");
+            mMockConsole.ReadLine().Returns(searchCommand, searchText, startDate, endDate, "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
 
