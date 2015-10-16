@@ -89,7 +89,7 @@ namespace LoggerConsole
             foreach (var logEntry in mSearchResults)
             {
                 mConsole.SetColour(ConsoleColor.Green);
-                mConsole.Write(logEntry.CreatedTime.ToString("dd/MM/yy hh:mm> "));
+                mConsole.Write(logEntry.CreatedTime.ToString("dd/MM/yy HH:mm> "));
                 mConsole.SetColour(ConsoleColor.Gray);
                 mConsole.WriteLine(logEntry.Text);
             }
