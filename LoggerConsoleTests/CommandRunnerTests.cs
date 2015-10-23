@@ -221,5 +221,30 @@ namespace LoggerConsoleTests
             mMockConsole.Received(1).WriteLine(testEntry2.Text);
             mMockConsole.Received(0).WriteLine(testEntry3.Text);
         }
+
+        [TestMethod]
+        public void TypingQuestionMarkPresentsListOfCommands()
+        {
+            mMockConsole.ReadLine().Returns(">?", "");
+
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
+
+            mMockConsole.Received(2).ReadLine();
+
+            mMockConsole.Received().WriteLine(Arg.Is<String>(line => line.StartsWith(">")));
+        }
+
+        [TestMethod]
+        public void TypingUnknownCommandShowsWarningAndPrintsListOfAvailableCommands()
+        {
+            mMockConsole.ReadLine().Returns(">THISISNOTACOMMAND", "");
+
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog);
+
+            mMockConsole.Received(2).ReadLine();
+
+            mMockConsole.Received(1).WriteLine("Unrecognised command. Please enter one of the following commands");
+            mMockConsole.Received().WriteLine(Arg.Is<String>(line => line.StartsWith(">")));
+        }
     }
 }

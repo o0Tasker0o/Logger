@@ -58,13 +58,31 @@ namespace LoggerConsole
         {
             switch(command)
             {
+                case "s":
+                case "":
+                    SearchAndDisplayLogEntries();
+                    break;
+                case "?":
+                    DisplayHelp();
+                    break;
                 case "rs":
                     SearchAndDisplayFilteredLogEntries();
                     break;
                 default:
-                    SearchAndDisplayLogEntries();
+                    mConsole.SetColour(ConsoleColor.Red);
+                    mConsole.WriteLine("Unrecognised command. Please enter one of the following commands");
+                    mConsole.SetColour(ConsoleColor.DarkCyan);
+                    DisplayHelp();
+                    mConsole.SetColour(ConsoleColor.Gray);
                     break;
             }
+        }
+
+        private void DisplayHelp()
+        {
+            mConsole.WriteLine(">?");
+            mConsole.WriteLine(">rs");
+            mConsole.WriteLine(">s (or blank)");
         }
 
         private void StoreLogEntry(String entryText)

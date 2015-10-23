@@ -20,7 +20,7 @@ namespace LoggerConsole
             Console.WriteLine(@"                                /___/            /___/");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("Type to make an entry. Type '>' to search or hit Enter to exit.");
+            Console.WriteLine("Type to make an entry. Type '>?' for a list of commands or hit Enter to exit.");
 
             Console.ForegroundColor = ConsoleColor.Gray;
 
