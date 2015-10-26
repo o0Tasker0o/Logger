@@ -7,6 +7,7 @@ namespace LoggerConsole
 {
     public class CommandRunner
     {
+        private readonly Dictionary<string, Tuple<string, Action>> mSubCommands;
         private IConsole mConsole;
         private ILog mLog;
         private IEnumerable<LogEntry> mSearchResults;
@@ -15,6 +16,13 @@ namespace LoggerConsole
 
         public CommandRunner(IConsole console, ILog log)
         {
+            mSubCommands = new Dictionary<string, Tuple<string, Action>>();
+
+            AddSubCommand("s", "Search log entries", SearchAndDisplayLogEntries);
+            AddSubCommand("", "Search log entries", SearchAndDisplayLogEntries);
+            AddSubCommand("rs", "Search previous results", SearchAndDisplayFilteredLogEntries);
+            AddSubCommand("?", "Display help", DisplayHelp);
+
             if(null == console)
             {
                 throw new ArgumentNullException("Console must not be null");
@@ -38,6 +46,11 @@ namespace LoggerConsole
             }
         }
 
+        private void AddSubCommand(string commandString, string helpText, Action command)
+        {
+            mSubCommands.Add(commandString, new Tuple<string, Action>(helpText, command));
+        }
+
         private void ExecuteCommand(string command)
         {
             if(command.StartsWith(">"))
@@ -56,33 +69,31 @@ namespace LoggerConsole
 
         private void ExecuteSubCommand(string command)
         {
-            switch(command)
+            try
             {
-                case "s":
-                case "":
-                    SearchAndDisplayLogEntries();
-                    break;
-                case "?":
-                    DisplayHelp();
-                    break;
-                case "rs":
-                    SearchAndDisplayFilteredLogEntries();
-                    break;
-                default:
-                    mConsole.SetColour(ConsoleColor.Red);
-                    mConsole.WriteLine("Unrecognised command. Please enter one of the following commands");
-                    mConsole.SetColour(ConsoleColor.DarkCyan);
-                    DisplayHelp();
-                    mConsole.SetColour(ConsoleColor.Gray);
-                    break;
+                mSubCommands[command].Item2();
+            }
+            catch(KeyNotFoundException)
+            {
+                mConsole.SetColour(ConsoleColor.Red);
+                mConsole.WriteLine("Unrecognised command. Please enter one of the following commands");
+                mConsole.SetColour(ConsoleColor.DarkCyan);
+                DisplayHelp();
+                mConsole.SetColour(ConsoleColor.Gray);
             }
         }
 
         private void DisplayHelp()
         {
-            mConsole.WriteLine(">?");
-            mConsole.WriteLine(">rs");
-            mConsole.WriteLine(">s (or blank)");
+            mConsole.SetColour(ConsoleColor.DarkCyan);
+
+            foreach(String command in mSubCommands.Keys)
+            {
+                mConsole.Write(">" + command + " - ");
+                mConsole.WriteLine(mSubCommands[command].Item1);
+            }
+
+            mConsole.SetColour(ConsoleColor.Gray);
         }
 
         private void StoreLogEntry(String entryText)

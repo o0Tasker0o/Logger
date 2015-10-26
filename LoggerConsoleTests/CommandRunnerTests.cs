@@ -231,7 +231,7 @@ namespace LoggerConsoleTests
 
             mMockConsole.Received(2).ReadLine();
 
-            mMockConsole.Received().WriteLine(Arg.Is<String>(line => line.StartsWith(">")));
+            mMockConsole.Received().Write(Arg.Is<String>(line => line.StartsWith(">")));
         }
 
         [TestMethod]
@@ -244,7 +244,7 @@ namespace LoggerConsoleTests
             mMockConsole.Received(2).ReadLine();
 
             mMockConsole.Received(1).WriteLine("Unrecognised command. Please enter one of the following commands");
-            mMockConsole.Received().WriteLine(Arg.Is<String>(line => line.StartsWith(">")));
+            mMockConsole.Received().Write(Arg.Is<String>(line => line.StartsWith(">")));
         }
     }
 }
