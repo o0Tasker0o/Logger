@@ -25,6 +25,7 @@ namespace LoggerConsole
             Console.ForegroundColor = ConsoleColor.Gray;
 
             Log log = new Log();
+            TodoList todoList = new TodoList();
             LogConsole console = new LogConsole();
 
             var logEntries = from logEntry in log.GetEntries()
@@ -40,7 +41,7 @@ namespace LoggerConsole
                 console.WriteLine(entry.Text);
             }
 
-            CommandRunner runner = new CommandRunner(console, log);
+            CommandRunner runner = new CommandRunner(console, log, todoList);
         }
 
     }
