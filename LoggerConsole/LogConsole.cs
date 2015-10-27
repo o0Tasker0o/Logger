@@ -23,5 +23,10 @@ namespace LoggerConsole
         {
             Console.ForegroundColor = colour;
         }
+
+        public void Clear()
+        {
+            Console.Clear();
+        }
     }
 }

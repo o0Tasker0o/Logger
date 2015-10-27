@@ -180,6 +180,8 @@ namespace LoggerConsole
 
         private void EnterTodoList()
         {
+            mConsole.Clear();
+
             DisplayTodoList();
 
             bool runTodoList = true;

@@ -260,12 +260,12 @@ namespace LoggerConsoleTests
         public void TypingTodoCommandListsAllItemsInTodoList()
         {
             IEnumerable<TodoEntry> todoList = new List<TodoEntry>() { new TodoEntry("todo entry") };
-            mMockConsole.ReadLine().Returns(">t", "");
+            mMockConsole.ReadLine().Returns(">t", "", "");
             mMockTodoList.GetEntries().Returns(todoList);
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(2).ReadLine();
+            mMockConsole.Received(3).ReadLine();
             mMockTodoList.Received(1).GetEntries();
             mMockConsole.Received(1).WriteLine("todo entry");
         }
@@ -275,11 +275,12 @@ namespace LoggerConsoleTests
         {
             const string cEntryText = "This is a new log entry";
 
-            mMockConsole.ReadLine().Returns(">t", cEntryText, "");
+            mMockConsole.ReadLine().Returns(">t", cEntryText, "", "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(3).ReadLine();
+            mMockConsole.Received(4).ReadLine();
+            mMockConsole.Received(1).Clear();
             mMockTodoList.Received(1).AddEntry(Arg.Is<TodoEntry>(entry => entry.Text == cEntryText));
         }
     }

@@ -12,5 +12,6 @@ namespace LoggerConsole
         void WriteLine(string text);
         void Write(string text);
         void SetColour(ConsoleColor colour);
+        void Clear();
     }
 }
