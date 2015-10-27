@@ -13,12 +13,13 @@ namespace LoggerConsole
             Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(@"                     ___       _ __       __");
-            Console.WriteLine(@"                    / _ \___ _(_) /_ __  / /  ___  ___ _");
-            Console.WriteLine(@"                   / // / _ `/ / / // / / /__/ _ \/ _ `/");
-            Console.WriteLine(@"                  /____/\_,_/_/_/\_, / /____/\___/\_, /");
-            Console.WriteLine(@"                                /___/            /___/");
+            Console.WriteLine(@"                           __");
+            Console.WriteLine(@"                          / /  ___  ___ ____ ____ ____");
+            Console.WriteLine(@"                         / /__/ _ \/ _ `/ _ `/ -_) __/");
+            Console.WriteLine(@"                        /____/\___/\_, /\_, /\__/_/");
+            Console.WriteLine(@"                                  /___//___/");
             Console.WriteLine();
+
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Type to make an entry. Type '>?' for a list of commands or hit Enter to exit.");
 

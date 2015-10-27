@@ -203,6 +203,13 @@ namespace LoggerConsole
 
         private void DisplayTodoList()
         {
+            mConsole.SetColour(ConsoleColor.Magenta);
+            Console.WriteLine(@"                    __________  ___  ____    __   _     __");
+            Console.WriteLine(@"                   /_  __/ __ \/ _ \/ __ \  / /  (_)__ / /_");
+            Console.WriteLine(@"                    / / / /_/ / // / /_/ / / /__/ (_-</ __/");
+            Console.WriteLine(@"                   /_/  \____/____/\____/ /____/_/___/\__/");
+            Console.WriteLine();
+
             UInt32 index = 0;
 
             foreach(TodoEntry entry in mTodoList.GetEntries())
