@@ -194,6 +194,21 @@ namespace LoggerConsole
                 {
                     runTodoList = false;
                 }
+                else if(todoText == ">r")
+                {
+                    string removalId = mConsole.ReadLine();
+
+                    try
+                    {
+                        mTodoList.RemoveEntry(UInt32.Parse(removalId));
+                    }
+                    catch(Exception)
+                    {
+                        mConsole.SetColour(ConsoleColor.Red);
+                        mConsole.WriteLine("Incorrect number provided");
+                        mConsole.SetColour(ConsoleColor.Gray);
+                    }
+                }
                 else
                 {
                     mTodoList.AddEntry(new TodoEntry(todoText));

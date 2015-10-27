@@ -6,7 +6,7 @@ namespace LoggerLib
     public interface ITodoList
     {
         void AddEntry(TodoEntry entry);
-        void RemoveEntry(Int32 id);
+        void RemoveEntry(UInt32 id);
         IEnumerable<TodoEntry> GetEntries();
     }
 }

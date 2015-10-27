@@ -283,5 +283,39 @@ namespace LoggerConsoleTests
             mMockConsole.Received(1).Clear();
             mMockTodoList.Received(1).AddEntry(Arg.Is<TodoEntry>(entry => entry.Text == cEntryText));
         }
+
+        [TestMethod]
+        public void CommandRunnerParsesRemoveCommand()
+        {
+            mMockConsole.ReadLine().Returns(">t", ">r", "0", "", "");
+
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
+
+            mMockConsole.Received(5).ReadLine();
+            mMockTodoList.DidNotReceive().AddEntry(Arg.Any<TodoEntry>());
+            mMockTodoList.Received(1).RemoveEntry(0);
+        }
+
+        [TestMethod]
+        public void CommandRunnerIgnoresNegativeNumbersForRemoveCommand()
+        {
+            TestRemoveTodoItemErrorCases("-1");
+            TestRemoveTodoItemErrorCases("NotANumber");
+            TestRemoveTodoItemErrorCases(null);
+        }
+
+        private void TestRemoveTodoItemErrorCases(string itemId)
+        {
+            mMockConsole.ReadLine().Returns(">t", ">r", itemId, "", "");
+
+            CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
+
+            mMockConsole.Received(5).ReadLine();
+            mMockTodoList.DidNotReceive().AddEntry(Arg.Any<TodoEntry>());
+            mMockTodoList.DidNotReceive().RemoveEntry(Arg.Any<uint>());
+
+            mMockConsole.ClearReceivedCalls();
+            mMockTodoList.ClearReceivedCalls();
+        }
     }
 }

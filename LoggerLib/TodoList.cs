@@ -23,9 +23,14 @@ namespace LoggerLib
             }
         }
 
-        public void RemoveEntry(Int32 id)
+        public void RemoveEntry(UInt32 id)
         {
-
+            using(LoggerDbContext loggerDatabase = new LoggerDbContext())
+            {
+                List<TodoEntry> availableEntries = loggerDatabase.TodoEntries.ToList();
+                loggerDatabase.TodoEntries.Remove(availableEntries[(int) id]);
+                loggerDatabase.SaveChanges();
+            }
         }
     }
 }
