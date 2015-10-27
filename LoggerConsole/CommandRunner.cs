@@ -188,6 +188,9 @@ namespace LoggerConsole
 
             while (runTodoList)
             {
+                mConsole.SetColour(ConsoleColor.Magenta);
+                mConsole.Write(">");
+                mConsole.SetColour(ConsoleColor.Gray);
                 String todoText = mConsole.ReadLine();
 
                 if (string.IsNullOrEmpty(todoText))
