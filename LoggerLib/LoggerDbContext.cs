@@ -10,5 +10,6 @@ namespace LoggerLib
         }
 
         public DbSet<LogEntry> LogEntries { get; set; }
+        public DbSet<TodoEntry> TodoEntries { get; set; }
     }
 }

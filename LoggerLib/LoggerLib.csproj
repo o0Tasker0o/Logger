@@ -58,11 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ILog.cs" />
+    <Compile Include="ITodoList.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="LoggerDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TodoEntry.cs" />
+    <Compile Include="TodoList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
