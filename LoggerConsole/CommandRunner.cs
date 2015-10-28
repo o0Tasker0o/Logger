@@ -43,6 +43,9 @@ namespace LoggerConsole
             mConsole = console;
             mLog = log;
             mTodoList = todoList;
+
+            EnterLogger();
+
             mRunning = true;
 
             while (mRunning)
@@ -178,6 +181,37 @@ namespace LoggerConsole
             return parsedDate;
         }
 
+        private void EnterLogger()
+        {
+            mConsole.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@"                           __");
+            Console.WriteLine(@"                          / /  ___  ___ ____ ____ ____");
+            Console.WriteLine(@"                         / /__/ _ \/ _ `/ _ `/ -_) __/");
+            Console.WriteLine(@"                        /____/\___/\_, /\_, /\__/_/");
+            Console.WriteLine(@"                                  /___//___/");
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("Type to make an entry. Type '>?' for a list of commands or hit Enter to exit.");
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            var logEntries = from logEntry in mLog.GetEntries()
+                             where logEntry.CreatedTime > DateTime.Now.Date
+                             orderby logEntry.CreatedTime
+                             select logEntry;
+
+            foreach (LogEntry entry in logEntries)
+            {
+                mConsole.SetColour(ConsoleColor.Green);
+                mConsole.Write("> ");
+                mConsole.SetColour(ConsoleColor.Gray);
+                mConsole.WriteLine(entry.Text);
+            }
+        }
+
         private void EnterTodoList()
         {
             mConsole.Clear();
@@ -217,6 +251,8 @@ namespace LoggerConsole
                     mTodoList.AddEntry(new TodoEntry(todoText));
                 }
             }
+
+            EnterLogger();
         }
 
         private void DisplayTodoList()
@@ -227,6 +263,11 @@ namespace LoggerConsole
             Console.WriteLine(@"                    / / / /_/ / // / /_/ / / /__/ (_-</ __/");
             Console.WriteLine(@"                   /_/  \____/____/\____/ /____/_/___/\__/");
             Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("Type to make an entry. Hit enter to return to logger");
+
+            Console.ForegroundColor = ConsoleColor.Gray;
 
             UInt32 index = 0;
 

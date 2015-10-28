@@ -46,7 +46,6 @@ namespace LoggerConsoleTests
 
             mMockConsole.Received(1).ReadLine();
             mMockLog.DidNotReceive().AddEntry(Arg.Any<LogEntry>());
-            mMockLog.DidNotReceive().GetEntries();
         }
 
         [TestMethod]
@@ -60,7 +59,6 @@ namespace LoggerConsoleTests
 
             mMockConsole.Received(2).ReadLine();
             mMockLog.Received(1).AddEntry(Arg.Is<LogEntry>(entry => entry.Text == cEntryText));
-            mMockLog.DidNotReceive().GetEntries();
         }
 
         [TestMethod]
@@ -118,9 +116,9 @@ namespace LoggerConsoleTests
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
             mMockConsole.Received(5).ReadLine();
-            mMockLog.Received(1).GetEntries();
+            mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry.Text);
+            mMockConsole.Received(2).WriteLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -152,9 +150,9 @@ namespace LoggerConsoleTests
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
             mMockConsole.Received(5).ReadLine();
-            mMockLog.Received(1).GetEntries();
+            mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(0).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
+            mMockConsole.Received(1).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
         }
 
         [TestMethod]
@@ -169,9 +167,9 @@ namespace LoggerConsoleTests
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
             mMockConsole.Received(6).ReadLine();
-            mMockLog.Received(1).GetEntries();
+            mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry.Text);
+            mMockConsole.Received(2).WriteLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -186,9 +184,9 @@ namespace LoggerConsoleTests
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
             mMockConsole.Received(6).ReadLine();
-            mMockLog.Received(1).GetEntries();
+            mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry.Text);
+            mMockConsole.Received(2).WriteLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -204,10 +202,10 @@ namespace LoggerConsoleTests
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
             mMockConsole.Received(5).ReadLine();
-            mMockLog.Received(1).GetEntries();
+            mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(1).WriteLine(testEntry1.Text);
-            mMockConsole.Received(1).WriteLine(testEntry2.Text);
+            mMockConsole.Received(2).WriteLine(testEntry1.Text);
+            mMockConsole.Received(2).WriteLine(testEntry2.Text);
         }
 
         [TestMethod]
@@ -224,11 +222,11 @@ namespace LoggerConsoleTests
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
             mMockConsole.Received(9).ReadLine();
-            mMockLog.Received(1).GetEntries();
+            mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(2).WriteLine(testEntry1.Text);
-            mMockConsole.Received(1).WriteLine(testEntry2.Text);
-            mMockConsole.Received(0).WriteLine(testEntry3.Text);
+            mMockConsole.Received(3).WriteLine(testEntry1.Text);
+            mMockConsole.Received(2).WriteLine(testEntry2.Text);
+            mMockConsole.Received(1).WriteLine(testEntry3.Text);
         }
 
         [TestMethod]
@@ -280,7 +278,7 @@ namespace LoggerConsoleTests
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
             mMockConsole.Received(4).ReadLine();
-            mMockConsole.Received(1).Clear();
+            mMockConsole.Received().Clear();
             mMockTodoList.Received(1).AddEntry(Arg.Is<TodoEntry>(entry => entry.Text == cEntryText));
         }
 
