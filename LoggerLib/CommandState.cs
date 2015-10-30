@@ -13,6 +13,23 @@ namespace LoggerLib
 
         public override void Execute()
         {
+            switch(Input)
+            {
+                case "s":
+                case "":
+                    SearchEntries();
+                    break;
+                case "t":
+                    mNextState = new DisplayTodoListHeaderState(mConsole, mLog);
+                    break;
+                default:
+                    DisplayHelp();
+                    break;
+            }
+        }
+
+        private void SearchEntries()
+        {
             mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.Output("Please enter the term you wish to search for: ");
             mConsole.SetColour(ConsoleColor.Gray);
@@ -39,6 +56,18 @@ namespace LoggerLib
             mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.OutputLine("");
             mConsole.OutputLine("End of logs. Type to make another entry");
+            mConsole.SetColour(ConsoleColor.Gray);
+        }
+
+        private void DisplayHelp()
+        {
+            mConsole.SetColour(ConsoleColor.DarkCyan);
+            mConsole.OutputLine("Unrecognised command. Please enter one of the following commands");
+            mConsole.OutputLine("s\t- Search log entries");
+            mConsole.OutputLine("\t- Search log entries");
+            mConsole.OutputLine("rs\t- (UNAVAILABLE) Search previous results");
+            mConsole.OutputLine("t\t- Enter TODO list");
+            mConsole.OutputLine("?\t- (UNAVAILABLE) Display help");
             mConsole.SetColour(ConsoleColor.Gray);
         }
 

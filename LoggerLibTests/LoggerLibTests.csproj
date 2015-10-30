@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DisplayTodoListHeaderStateTests.cs" />
     <Compile Include="LogEntryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TodoEntryTests.cs" />

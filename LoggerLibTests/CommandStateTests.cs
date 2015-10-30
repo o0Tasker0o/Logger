@@ -224,5 +224,38 @@ namespace LoggerLibTests
             mockConsole.Received(1).Output(entry.CreatedTime.ToString("dd/MM/yy HH:mm> "));
             mockConsole.Received(1).OutputLine(entry.Text);
         }
+
+        [TestMethod]
+        public void CommandStateHandlesUnknownCommandStrings()
+        {
+            ILog mockLog = Substitute.For<ILog>();
+            IConsole mockConsole = Substitute.For<IConsole>();
+
+            CommandState state = new CommandState(mockConsole, mockLog);
+            state.Input = "UNKNOWN COMMAND";
+
+            state.Execute();
+
+            mockConsole.Received(1).OutputLine("Unrecognised command. Please enter one of the following commands");
+            mockConsole.Received(1).OutputLine("s\t- Search log entries");
+            mockConsole.Received(1).OutputLine("\t- Search log entries");
+            mockConsole.Received(1).OutputLine("rs\t- (UNAVAILABLE) Search previous results");
+            mockConsole.Received(1).OutputLine("t\t- Enter TODO list");
+            mockConsole.Received(1).OutputLine("?\t- (UNAVAILABLE) Display help");
+        }
+
+        [TestMethod]
+        public void CommandStateReturnsTodoListState()
+        {
+            ILog mockLog = Substitute.For<ILog>();
+            IConsole mockConsole = Substitute.For<IConsole>();
+
+            CommandState state = new CommandState(mockConsole, mockLog);
+            state.Input = "t";
+
+            state.Execute();
+
+            Assert.IsInstanceOfType(state.GetNextState(), typeof(DisplayTodoListHeaderState));
+        }
     }
 }

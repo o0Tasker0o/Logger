@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="CommandState.cs" />
     <Compile Include="DisplayLogHeaderState.cs" />
+    <Compile Include="DisplayTodoListHeaderState.cs" />
     <Compile Include="IConsole.cs" />
     <Compile Include="ILog.cs" />
     <Compile Include="ITodoList.cs" />
