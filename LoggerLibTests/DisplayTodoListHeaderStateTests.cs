@@ -15,7 +15,7 @@ namespace LoggerLibTests
             ILog mockLog = Substitute.For<ILog>();
             DisplayTodoListHeaderState state = new DisplayTodoListHeaderState(mockConsole, mockLog);
 
-            Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadState));
+            Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadTodoState));
         }
 
         [TestMethod]
