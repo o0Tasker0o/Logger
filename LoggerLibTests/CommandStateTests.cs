@@ -256,11 +256,10 @@ namespace LoggerLibTests
             state.Execute();
 
             mockConsole.Received(1).OutputLine("Unrecognised command. Please enter one of the following commands");
-            mockConsole.Received(1).OutputLine("s\t- Search log entries");
-            mockConsole.Received(1).OutputLine("\t- Search log entries");
-            mockConsole.Received(1).OutputLine("rs\t- (UNAVAILABLE) Search previous results");
-            mockConsole.Received(1).OutputLine("t\t- Enter TODO list");
-            mockConsole.Received(1).OutputLine("?\t- Display help");
+            mockConsole.Received(2).OutputLine("Search log entries");
+            mockConsole.Received(1).OutputLine("(UNAVAILABLE) Search previous results");
+            mockConsole.Received(1).OutputLine("Enter TODO list");
+            mockConsole.Received(1).OutputLine("Display help");
         }
 
         [TestMethod]
@@ -276,11 +275,10 @@ namespace LoggerLibTests
             state.Execute();
 
             mockConsole.Received(0).OutputLine("Unrecognised command. Please enter one of the following commands");
-            mockConsole.Received(1).OutputLine("s\t- Search log entries");
-            mockConsole.Received(1).OutputLine("\t- Search log entries");
-            mockConsole.Received(1).OutputLine("rs\t- (UNAVAILABLE) Search previous results");
-            mockConsole.Received(1).OutputLine("t\t- Enter TODO list");
-            mockConsole.Received(1).OutputLine("?\t- Display help");
+            mockConsole.Received(2).OutputLine("Search log entries");
+            mockConsole.Received(1).OutputLine("(UNAVAILABLE) Search previous results");
+            mockConsole.Received(1).OutputLine("Enter TODO list");
+            mockConsole.Received(1).OutputLine("Display help");
         }
 
         [TestMethod]
