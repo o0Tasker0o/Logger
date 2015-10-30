@@ -1,7 +1,6 @@
 ﻿using LoggerLib;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace LoggerConsole
 {
@@ -16,7 +15,13 @@ namespace LoggerConsole
             TodoList todoList = new TodoList();
             LogConsole console = new LogConsole();
 
-            CommandRunner runner = new CommandRunner(console, log, todoList);
+            State nextState = new ReadState(console, log);
+
+            while(null != nextState)
+            {
+                nextState.Execute();
+                nextState = nextState.GetNextState();
+            }
         }
 
     }
