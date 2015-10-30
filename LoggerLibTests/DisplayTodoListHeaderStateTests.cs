@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 
 namespace LoggerLibTests
 {
@@ -30,6 +31,24 @@ namespace LoggerLibTests
 
             mockConsole.Received(1).Clear();
             mockConsole.Received().OutputLine(Arg.Any<String>());
+        }
+
+        [TestMethod]
+        public void DisplayTodoHeaderStateOutputsAllTodoItems()
+        {
+            TodoEntry todoEntry = new TodoEntry("entry");
+            List<TodoEntry> todoEntries = new List<TodoEntry>() { todoEntry };
+
+            IConsole mockConsole = Substitute.For<IConsole>();
+            ILog mockLog = Substitute.For<ILog>();
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            mockTodoList.GetEntries().Returns(todoEntries);
+
+            DisplayTodoListHeaderState state = new DisplayTodoListHeaderState(mockConsole, mockLog, mockTodoList);
+            state.Execute();
+
+            mockConsole.Received(1).Output("0> ");
+            mockConsole.Received(1).OutputLine("entry");
         }
     }
 }

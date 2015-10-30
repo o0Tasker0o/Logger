@@ -27,6 +27,18 @@ namespace LoggerLib
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             mConsole.OutputLine("Type to make an entry. Hit enter to return to logger");
 
+            UInt32 entryIndex = 0;
+
+            foreach (TodoEntry entry in mTodoList.GetEntries())
+            {
+                mConsole.SetColour(ConsoleColor.Magenta);
+                mConsole.Output(entryIndex + "> ");
+                mConsole.SetColour(ConsoleColor.Gray);
+                mConsole.OutputLine(entry.Text);
+
+                ++entryIndex;
+            }
+
             Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
