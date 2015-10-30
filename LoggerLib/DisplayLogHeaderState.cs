@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace LoggerLib
 {
@@ -23,8 +24,18 @@ namespace LoggerLib
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             mConsole.OutputLine("Type to make an entry. Type '>?' for a list of commands or hit Enter to exit.");
+            var logEntries = from logEntry in mLog.GetEntries()
+                             where logEntry.CreatedTime > DateTime.Now.Date
+                             orderby logEntry.CreatedTime
+                             select logEntry;
 
-            mConsole.SetColour(ConsoleColor.Gray);
+            foreach (LogEntry entry in logEntries)
+            {
+                mConsole.SetColour(ConsoleColor.Green);
+                mConsole.Output("> ");
+                mConsole.SetColour(ConsoleColor.Gray);
+                mConsole.OutputLine(entry.Text);
+            }
         }
     }
 }
