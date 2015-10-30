@@ -15,7 +15,7 @@ namespace LoggerConsole
             TodoList todoList = new TodoList();
             LogConsole console = new LogConsole();
 
-            State nextState = new ReadState(console, log);
+            State nextState = new DisplayLogHeaderState(console, log);
 
             while(null != nextState)
             {

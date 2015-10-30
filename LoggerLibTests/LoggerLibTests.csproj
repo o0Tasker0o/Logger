@@ -69,6 +69,7 @@
     <Compile Include="ReadStateTests.cs" />
     <Compile Include="StoreStateTests.cs" />
     <Compile Include="CommandStateTests.cs" />
+    <Compile Include="DisplayLogHeaderStateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoggerLib\LoggerLib.csproj">

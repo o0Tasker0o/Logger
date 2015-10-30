@@ -10,7 +10,9 @@ namespace LoggerLib
 
         public override void Execute()
         {
+            mConsole.SetColour(ConsoleColor.Green);
             mConsole.Output(">");
+            mConsole.SetColour(ConsoleColor.Gray);
 
             string input = mConsole.GetInput();
 

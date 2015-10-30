@@ -13,7 +13,10 @@ namespace LoggerLib
 
         public override void Execute()
         {
+            mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.Output("Please enter the term you wish to search for: ");
+            mConsole.SetColour(ConsoleColor.Gray);
+
             string[] searchTerms = mConsole.GetInput().ToLower().Split(' ');
             DateTime startDate = GetDate("Please enter the date to start searching from: ", new DateTime(1, 1, 1));
             DateTime endDate = GetDate("Please enter the date to search up to: ", DateTime.Now);
@@ -27,9 +30,16 @@ namespace LoggerLib
 
             foreach(LogEntry entry in searchedEntries)
             {
+                mConsole.SetColour(ConsoleColor.Green);
                 mConsole.Output(entry.CreatedTime.ToString("dd/MM/yy HH:mm> "));
+                mConsole.SetColour(ConsoleColor.Gray);
                 mConsole.OutputLine(entry.Text);
             }
+
+            mConsole.SetColour(ConsoleColor.DarkCyan);
+            mConsole.OutputLine("");
+            mConsole.OutputLine("End of logs. Type to make another entry");
+            mConsole.SetColour(ConsoleColor.Gray);
         }
 
         private DateTime GetDate(string instruction, DateTime defaultDate)
