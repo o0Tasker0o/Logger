@@ -7,6 +7,7 @@ namespace LoggerLib
         protected State mNextState;
         protected IConsole mConsole;
         protected ILog mLog;
+        protected ITodoList mTodoList;
 
         public String Input
         {
@@ -14,7 +15,7 @@ namespace LoggerLib
             set;
         }
         
-        public State(IConsole console, ILog log)
+        public State(IConsole console, ILog log, ITodoList todoList)
         {
             if (null == console)
             {
@@ -26,8 +27,14 @@ namespace LoggerLib
                 throw new ArgumentNullException("Log must not be null");
             }
 
+            if (null == todoList)
+            {
+                throw new ArgumentNullException("TODO list must not be null");
+            }
+
             mConsole = console;
             mLog = log;
+            mTodoList = todoList;
         }
 
         public State GetNextState()

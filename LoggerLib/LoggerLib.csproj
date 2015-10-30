@@ -79,6 +79,7 @@
     <Compile Include="ReadState.cs" />
     <Compile Include="ReadTodoState.cs" />
     <Compile Include="State.cs" />
+    <Compile Include="StoreTodoState.cs" />
     <Compile Include="StoreState.cs" />
     <Compile Include="TodoEntry.cs" />
     <Compile Include="TodoList.cs" />

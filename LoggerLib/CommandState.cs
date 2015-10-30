@@ -6,9 +6,9 @@ namespace LoggerLib
 {
     public class CommandState : State
     {
-        public CommandState(IConsole console, ILog log) : base(console, log)
+        public CommandState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
-            mNextState = new ReadState(console, log);
+            mNextState = new ReadState(console, log, todoList);
         }
 
         public override void Execute()
@@ -20,7 +20,7 @@ namespace LoggerLib
                     SearchEntries();
                     break;
                 case "t":
-                    mNextState = new DisplayTodoListHeaderState(mConsole, mLog);
+                    mNextState = new DisplayTodoListHeaderState(mConsole, mLog, mTodoList);
                     break;
                 case "?":
                     DisplayHelp();

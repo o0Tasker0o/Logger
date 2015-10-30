@@ -13,7 +13,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadTodoState state = new ReadTodoState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadTodoState state = new ReadTodoState(mockConsole, mockLog, mockTodoList);
             Assert.IsNull(state.GetNextState());
         }
 
@@ -22,7 +23,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadTodoState state = new ReadTodoState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadTodoState state = new ReadTodoState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             mockConsole.Received(1).Output(">");
@@ -33,7 +35,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadTodoState state = new ReadTodoState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadTodoState state = new ReadTodoState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             mockConsole.Received(1).GetInput();
@@ -47,11 +50,12 @@ namespace LoggerLibTests
             mockConsole.GetInput().Returns(cConsoleInput);
 
             ILog mockLog = Substitute.For<ILog>();
-            ReadTodoState state = new ReadTodoState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadTodoState state = new ReadTodoState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             State nextState = state.GetNextState();
-            Assert.IsInstanceOfType(nextState, typeof(StoreState));
+            Assert.IsInstanceOfType(nextState, typeof(StoreTodoState));
             Assert.AreEqual(cConsoleInput, nextState.Input);
         }
 
@@ -62,7 +66,8 @@ namespace LoggerLibTests
             mockConsole.GetInput().Returns(">COMMANDSTRING");
 
             ILog mockLog = Substitute.For<ILog>();
-            ReadTodoState state = new ReadTodoState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadTodoState state = new ReadTodoState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             State nextState = state.GetNextState();
@@ -75,7 +80,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadTodoState state = new ReadTodoState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadTodoState state = new ReadTodoState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             Assert.IsInstanceOfType(state.GetNextState(), typeof(DisplayLogHeaderState));

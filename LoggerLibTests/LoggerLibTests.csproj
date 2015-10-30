@@ -67,6 +67,7 @@
     <Compile Include="LogEntryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadTodoStateTests.cs" />
+    <Compile Include="StoreTodoStateTests.cs" />
     <Compile Include="TodoEntryTests.cs" />
     <Compile Include="ReadStateTests.cs" />
     <Compile Include="StoreStateTests.cs" />

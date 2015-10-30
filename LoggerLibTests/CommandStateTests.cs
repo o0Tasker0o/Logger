@@ -14,7 +14,9 @@ namespace LoggerLibTests
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
 
             Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadState));
         }
@@ -32,7 +34,9 @@ namespace LoggerLibTests
             DateTime tomorrow = DateTime.Now.AddDays(+1);
             mockConsole.GetInput().Returns("search term", yesterday.ToString(), tomorrow.ToString());
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -62,7 +66,9 @@ namespace LoggerLibTests
             DateTime tomorrow = DateTime.Now.AddDays(+1);
             mockConsole.GetInput().Returns("search term", yesterday.ToString(), tomorrow.ToString());
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -86,7 +92,9 @@ namespace LoggerLibTests
             DateTime tomorrow = DateTime.Now.AddDays(+1);
             mockConsole.GetInput().Returns("search term", yesterday.ToString(), tomorrow.ToString());
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -109,7 +117,9 @@ namespace LoggerLibTests
             DateTime endDate = DateTime.Now.AddDays(+1);
             mockConsole.GetInput().Returns("search term", startDate.ToString(), endDate.ToString());
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -132,7 +142,9 @@ namespace LoggerLibTests
             DateTime endDate = DateTime.Now.AddDays(-1);
             mockConsole.GetInput().Returns("search term", startDate.ToString(), endDate.ToString());
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -154,7 +166,9 @@ namespace LoggerLibTests
             DateTime tomorrow = DateTime.Now.AddDays(+1);
             mockConsole.GetInput().Returns("search term", "NOT A DATE", yesterday.ToString(), tomorrow.ToString());
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -182,7 +196,9 @@ namespace LoggerLibTests
             DateTime tomorrow = DateTime.Now.AddDays(+1);
             mockConsole.GetInput().Returns("search term", yesterday.ToString(), "NOT A DATE", tomorrow.ToString());
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -210,7 +226,9 @@ namespace LoggerLibTests
             DateTime tomorrow = DateTime.Now.AddDays(+1);
             mockConsole.GetInput().Returns("search term", "", "");
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -230,8 +248,9 @@ namespace LoggerLibTests
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "UNKNOWN COMMAND";
 
             state.Execute();
@@ -249,8 +268,9 @@ namespace LoggerLibTests
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "?";
 
             state.Execute();
@@ -268,8 +288,9 @@ namespace LoggerLibTests
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog);
+            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
             state.Input = "t";
 
             state.Execute();

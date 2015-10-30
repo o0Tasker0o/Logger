@@ -4,7 +4,7 @@ namespace LoggerLib
 {
     public class ReadState : State
     {
-        public ReadState(IConsole console, ILog log) : base(console, log)
+        public ReadState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
         }
 
@@ -18,12 +18,12 @@ namespace LoggerLib
 
             if (input.StartsWith(">"))
             {
-                mNextState = new CommandState(mConsole, mLog);
+                mNextState = new CommandState(mConsole, mLog, mTodoList);
                 mNextState.Input = input.Remove(0, 1);
             }
             else if(!string.IsNullOrEmpty(input))
             {
-                mNextState = new StoreState(mConsole, mLog);
+                mNextState = new StoreState(mConsole, mLog, mTodoList);
                 mNextState.Input = input;
             }
             else

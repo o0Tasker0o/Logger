@@ -13,16 +13,30 @@ namespace LoggerLibTests
         public void ReadStateThrowsExceptionWhenPassedNullConsole()
         {
             ILog mockLog = Substitute.For<ILog>();
+            IConsole mockConsole = Substitute.For<IConsole>();
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            State state = new ReadState(null, mockLog);
+            State state = new ReadState(null, mockLog, mockTodoList);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReadStateThrowsExceptionWhenPassedNullLog()
         {
+            ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
-            State state = new ReadState(mockConsole, null);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            State state = new ReadState(mockConsole, null, mockTodoList);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ReadStateThrowsExceptionWhenPassedNullTodoList()
+        {
+            ILog mockLog = Substitute.For<ILog>();
+            IConsole mockConsole = Substitute.For<IConsole>();
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            State state = new ReadState(mockConsole, mockLog, null);
         }
     }
 
@@ -34,7 +48,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadState state = new ReadState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadState state = new ReadState(mockConsole, mockLog, mockTodoList);
             Assert.IsNull(state.GetNextState());
         }
 
@@ -43,7 +58,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadState state = new ReadState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadState state = new ReadState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             mockConsole.Received(1).Output(">");
@@ -54,7 +70,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadState state = new ReadState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadState state = new ReadState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             mockConsole.Received(1).GetInput();
@@ -68,7 +85,8 @@ namespace LoggerLibTests
             mockConsole.GetInput().Returns(cConsoleInput);
 
             ILog mockLog = Substitute.For<ILog>();
-            ReadState state = new ReadState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadState state = new ReadState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             State nextState = state.GetNextState();
@@ -83,7 +101,8 @@ namespace LoggerLibTests
             mockConsole.GetInput().Returns(">COMMANDSTRING");
 
             ILog mockLog = Substitute.For<ILog>();
-            ReadState state = new ReadState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadState state = new ReadState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             State nextState = state.GetNextState();
@@ -96,7 +115,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            ReadState state = new ReadState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            ReadState state = new ReadState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             Assert.IsNull(state.GetNextState());

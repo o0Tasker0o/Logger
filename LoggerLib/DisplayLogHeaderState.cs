@@ -5,9 +5,9 @@ namespace LoggerLib
 {
     public class DisplayLogHeaderState : State
     {
-        public DisplayLogHeaderState(IConsole console, ILog log) : base(console, log)
+        public DisplayLogHeaderState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
-            mNextState = new ReadState(console, log);
+            mNextState = new ReadState(console, log, mTodoList);
         }
 
         public override void Execute()

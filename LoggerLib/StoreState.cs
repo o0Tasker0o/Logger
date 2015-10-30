@@ -4,9 +4,9 @@ namespace LoggerLib
 {
     public class StoreState : State
     {
-        public StoreState(IConsole console, ILog log) : base(console, log)
+        public StoreState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
-            mNextState = new ReadState(console, log);
+            mNextState = new ReadState(console, log, mTodoList);
         }
 
         public override void Execute()

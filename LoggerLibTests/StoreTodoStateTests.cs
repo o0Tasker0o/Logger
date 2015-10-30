@@ -6,31 +6,31 @@ using NSubstitute;
 namespace LoggerLibTests
 {
     [TestClass]
-    public class StoreStateTests
+    public class StoreTodoStateTests
     {
         [TestMethod]
-        public void StoreStateNextStateIsReadState()
+        public void StoreTodoStateNextStateIsReadTodoState()
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
             ITodoList mockTodoList = Substitute.For<ITodoList>();
-            StoreState state = new StoreState(mockConsole, mockLog, mockTodoList);
+            StoreTodoState state = new StoreTodoState(mockConsole, mockLog, mockTodoList);
 
-            Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadState));
+            Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadTodoState));
         }
 
         [TestMethod]
-        public void StoreStateStoresTextInLog()
+        public void StoreTodoStateStoresTextInTodoList()
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
             ITodoList mockTodoList = Substitute.For<ITodoList>();
-            StoreState state = new StoreState(mockConsole, mockLog, mockTodoList);
+            StoreTodoState state = new StoreTodoState(mockConsole, mockLog, mockTodoList);
 
             state.Input = "This is the entry text";
             state.Execute();
 
-            mockLog.Received(1).AddEntry(Arg.Is<LogEntry>(entry => entry.Text == state.Input));
+            mockTodoList.Received(1).AddEntry(Arg.Is<TodoEntry>(entry => entry.Text == state.Input));
         }
     }
 }

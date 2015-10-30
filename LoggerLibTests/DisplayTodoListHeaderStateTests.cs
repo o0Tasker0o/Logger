@@ -13,7 +13,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            DisplayTodoListHeaderState state = new DisplayTodoListHeaderState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            DisplayTodoListHeaderState state = new DisplayTodoListHeaderState(mockConsole, mockLog, mockTodoList);
 
             Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadTodoState));
         }
@@ -23,7 +24,8 @@ namespace LoggerLibTests
         {
             IConsole mockConsole = Substitute.For<IConsole>();
             ILog mockLog = Substitute.For<ILog>();
-            DisplayTodoListHeaderState state = new DisplayTodoListHeaderState(mockConsole, mockLog);
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+            DisplayTodoListHeaderState state = new DisplayTodoListHeaderState(mockConsole, mockLog, mockTodoList);
             state.Execute();
 
             mockConsole.Received(1).Clear();
