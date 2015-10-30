@@ -1,7 +1,8 @@
 #Visual Studio files
 *.suo
 [Oo]bj/
-[Bb]in/
+[Oo]ut/
+[Tt]est[Oo]ut/
 [Pp]ackages/
 [Tt]est[Cc]overage/
 [Tt]est[Cc]overage[Hh]istory/
