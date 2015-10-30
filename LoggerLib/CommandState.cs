@@ -22,7 +22,12 @@ namespace LoggerLib
                 case "t":
                     mNextState = new DisplayTodoListHeaderState(mConsole, mLog);
                     break;
+                case "?":
+                    DisplayHelp();
+                    break;
                 default:
+                    mConsole.SetColour(ConsoleColor.DarkCyan);
+                    mConsole.OutputLine("Unrecognised command. Please enter one of the following commands");
                     DisplayHelp();
                     break;
             }
@@ -62,12 +67,11 @@ namespace LoggerLib
         private void DisplayHelp()
         {
             mConsole.SetColour(ConsoleColor.DarkCyan);
-            mConsole.OutputLine("Unrecognised command. Please enter one of the following commands");
             mConsole.OutputLine("s\t- Search log entries");
             mConsole.OutputLine("\t- Search log entries");
             mConsole.OutputLine("rs\t- (UNAVAILABLE) Search previous results");
             mConsole.OutputLine("t\t- Enter TODO list");
-            mConsole.OutputLine("?\t- (UNAVAILABLE) Display help");
+            mConsole.OutputLine("?\t- Display help");
             mConsole.SetColour(ConsoleColor.Gray);
         }
 

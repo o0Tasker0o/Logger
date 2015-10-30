@@ -241,7 +241,26 @@ namespace LoggerLibTests
             mockConsole.Received(1).OutputLine("\t- Search log entries");
             mockConsole.Received(1).OutputLine("rs\t- (UNAVAILABLE) Search previous results");
             mockConsole.Received(1).OutputLine("t\t- Enter TODO list");
-            mockConsole.Received(1).OutputLine("?\t- (UNAVAILABLE) Display help");
+            mockConsole.Received(1).OutputLine("?\t- Display help");
+        }
+
+        [TestMethod]
+        public void CommandStateDisplaysHelpOnQuestionMark()
+        {
+            ILog mockLog = Substitute.For<ILog>();
+            IConsole mockConsole = Substitute.For<IConsole>();
+
+            CommandState state = new CommandState(mockConsole, mockLog);
+            state.Input = "?";
+
+            state.Execute();
+
+            mockConsole.Received(0).OutputLine("Unrecognised command. Please enter one of the following commands");
+            mockConsole.Received(1).OutputLine("s\t- Search log entries");
+            mockConsole.Received(1).OutputLine("\t- Search log entries");
+            mockConsole.Received(1).OutputLine("rs\t- (UNAVAILABLE) Search previous results");
+            mockConsole.Received(1).OutputLine("t\t- Enter TODO list");
+            mockConsole.Received(1).OutputLine("?\t- Display help");
         }
 
         [TestMethod]
