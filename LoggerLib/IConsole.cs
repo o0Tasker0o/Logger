@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoggerConsole
+namespace LoggerLib
 {
     public interface IConsole
     {
-        String ReadLine();
-        void WriteLine(string text);
-        void Write(string text);
+        String GetInput();
+        void Output(string text);
+        void OutputLine(string text);
         void SetColour(ConsoleColor colour);
         void Clear();
     }

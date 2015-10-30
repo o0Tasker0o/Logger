@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConsole.cs" />
     <Compile Include="ILog.cs" />
     <Compile Include="ITodoList.cs" />
     <Compile Include="Log.cs" />

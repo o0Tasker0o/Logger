@@ -33,7 +33,7 @@ namespace LoggerConsoleTests
             const string cInputString = "test";
             LogConsole logConsole = new LogConsole();
 
-            logConsole.Write("test");
+            logConsole.Output("test");
 
             Assert.AreEqual(cInputString, GetOutputString());
         }
@@ -44,7 +44,7 @@ namespace LoggerConsoleTests
             const string cInputString = "test";
             LogConsole logConsole = new LogConsole();
 
-            logConsole.WriteLine("test");
+            logConsole.OutputLine("test");
 
             Assert.AreEqual(cInputString + Environment.NewLine, GetOutputString());
         }

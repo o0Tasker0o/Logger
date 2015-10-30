@@ -51,9 +51,9 @@ namespace LoggerConsole
             while (mRunning)
             {
                 mConsole.SetColour(ConsoleColor.Green);
-                mConsole.Write("> ");
+                mConsole.Output("> ");
                 mConsole.SetColour(ConsoleColor.Gray);
-                ExecuteCommand(mConsole.ReadLine());
+                ExecuteCommand(mConsole.GetInput());
             }
         }
 
@@ -87,7 +87,7 @@ namespace LoggerConsole
             catch(KeyNotFoundException)
             {
                 mConsole.SetColour(ConsoleColor.Red);
-                mConsole.WriteLine("Unrecognised command. Please enter one of the following commands");
+                mConsole.OutputLine("Unrecognised command. Please enter one of the following commands");
                 mConsole.SetColour(ConsoleColor.DarkCyan);
                 DisplayHelp();
                 mConsole.SetColour(ConsoleColor.Gray);
@@ -100,8 +100,8 @@ namespace LoggerConsole
 
             foreach(String command in mSubCommands.Keys)
             {
-                mConsole.Write(">" + command + " - ");
-                mConsole.WriteLine(mSubCommands[command].Item1);
+                mConsole.Output(">" + command + " - ");
+                mConsole.OutputLine(mSubCommands[command].Item1);
             }
 
             mConsole.SetColour(ConsoleColor.Gray);
@@ -129,24 +129,24 @@ namespace LoggerConsole
             foreach (var logEntry in mSearchResults)
             {
                 mConsole.SetColour(ConsoleColor.Green);
-                mConsole.Write(logEntry.CreatedTime.ToString("dd/MM/yy HH:mm> "));
+                mConsole.Output(logEntry.CreatedTime.ToString("dd/MM/yy HH:mm> "));
                 mConsole.SetColour(ConsoleColor.Gray);
-                mConsole.WriteLine(logEntry.Text);
+                mConsole.OutputLine(logEntry.Text);
             }
 
             mConsole.SetColour(ConsoleColor.DarkCyan);
-            mConsole.WriteLine("");
-            mConsole.WriteLine("End of logs. Type to make another entry");
+            mConsole.OutputLine("");
+            mConsole.OutputLine("End of logs. Type to make another entry");
             mConsole.SetColour(ConsoleColor.Gray);
         }
 
         private IEnumerable<LogEntry> GetSearchResults(IEnumerable<LogEntry> entries)
         {
             mConsole.SetColour(ConsoleColor.DarkCyan);
-            mConsole.Write("Please enter the term you wish to search for: ");
+            mConsole.Output("Please enter the term you wish to search for: ");
 
             mConsole.SetColour(ConsoleColor.Gray);
-            String[] searchTerms = mConsole.ReadLine().ToLower().Split(' ');
+            String[] searchTerms = mConsole.GetInput().ToLower().Split(' ');
 
             DateTime startDate = GetDate("Please enter the date to start searching from: ", new DateTime(1, 1, 1));
             DateTime endDate = GetDate("Please enter the date to search up to: ", DateTime.Now);
@@ -167,9 +167,9 @@ namespace LoggerConsole
             do
             {
                 mConsole.SetColour(ConsoleColor.DarkCyan);
-                mConsole.Write(instruction);
+                mConsole.Output(instruction);
                 mConsole.SetColour(ConsoleColor.Gray);
-                inputDate = mConsole.ReadLine();
+                inputDate = mConsole.GetInput();
 
                 if(string.IsNullOrEmpty(inputDate))
                 {
@@ -185,16 +185,16 @@ namespace LoggerConsole
         {
             mConsole.Clear();
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(@"                           __");
-            Console.WriteLine(@"                          / /  ___  ___ ____ ____ ____");
-            Console.WriteLine(@"                         / /__/ _ \/ _ `/ _ `/ -_) __/");
-            Console.WriteLine(@"                        /____/\___/\_, /\_, /\__/_/");
-            Console.WriteLine(@"                                  /___//___/");
-            Console.WriteLine();
+            mConsole.SetColour(ConsoleColor.Green);
+            mConsole.OutputLine(@"                           __");
+            mConsole.OutputLine(@"                          / /  ___  ___ ____ ____ ____");
+            mConsole.OutputLine(@"                         / /__/ _ \/ _ `/ _ `/ -_) __/");
+            mConsole.OutputLine(@"                        /____/\___/\_, /\_, /\__/_/");
+            mConsole.OutputLine(@"                                  /___//___/");
+            mConsole.OutputLine("");
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("Type to make an entry. Type '>?' for a list of commands or hit Enter to exit.");
+            mConsole.OutputLine("Type to make an entry. Type '>?' for a list of commands or hit Enter to exit.");
 
             Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -206,9 +206,9 @@ namespace LoggerConsole
             foreach (LogEntry entry in logEntries)
             {
                 mConsole.SetColour(ConsoleColor.Green);
-                mConsole.Write("> ");
+                mConsole.Output("> ");
                 mConsole.SetColour(ConsoleColor.Gray);
-                mConsole.WriteLine(entry.Text);
+                mConsole.OutputLine(entry.Text);
             }
         }
 
@@ -223,9 +223,9 @@ namespace LoggerConsole
             while (runTodoList)
             {
                 mConsole.SetColour(ConsoleColor.Magenta);
-                mConsole.Write(">");
+                mConsole.Output(">");
                 mConsole.SetColour(ConsoleColor.Gray);
-                String todoText = mConsole.ReadLine();
+                String todoText = mConsole.GetInput();
 
                 if (string.IsNullOrEmpty(todoText))
                 {
@@ -233,7 +233,7 @@ namespace LoggerConsole
                 }
                 else if(todoText == ">r")
                 {
-                    string removalId = mConsole.ReadLine();
+                    string removalId = mConsole.GetInput();
 
                     try
                     {
@@ -242,7 +242,7 @@ namespace LoggerConsole
                     catch(Exception)
                     {
                         mConsole.SetColour(ConsoleColor.Red);
-                        mConsole.WriteLine("Incorrect number provided");
+                        mConsole.OutputLine("Incorrect number provided");
                         mConsole.SetColour(ConsoleColor.Gray);
                     }
                 }
@@ -258,14 +258,14 @@ namespace LoggerConsole
         private void DisplayTodoList()
         {
             mConsole.SetColour(ConsoleColor.Magenta);
-            Console.WriteLine(@"                    __________  ___  ____    __   _     __");
-            Console.WriteLine(@"                   /_  __/ __ \/ _ \/ __ \  / /  (_)__ / /_");
-            Console.WriteLine(@"                    / / / /_/ / // / /_/ / / /__/ (_-</ __/");
-            Console.WriteLine(@"                   /_/  \____/____/\____/ /____/_/___/\__/");
-            Console.WriteLine();
+            mConsole.OutputLine(@"                    __________  ___  ____    __   _     __");
+            mConsole.OutputLine(@"                   /_  __/ __ \/ _ \/ __ \  / /  (_)__ / /_");
+            mConsole.OutputLine(@"                    / / / /_/ / // / /_/ / / /__/ (_-</ __/");
+            mConsole.OutputLine(@"                   /_/  \____/____/\____/ /____/_/___/\__/");
+            mConsole.OutputLine("");
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("Type to make an entry. Hit enter to return to logger");
+            mConsole.OutputLine("Type to make an entry. Hit enter to return to logger");
 
             Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -274,9 +274,9 @@ namespace LoggerConsole
             foreach(TodoEntry entry in mTodoList.GetEntries())
             {
                 mConsole.SetColour(ConsoleColor.Magenta);
-                mConsole.Write(index + ">");
+                mConsole.Output(index + ">");
                 mConsole.SetColour(ConsoleColor.Gray);
-                mConsole.WriteLine(entry.Text);
+                mConsole.OutputLine(entry.Text);
 
                 ++index;
             }

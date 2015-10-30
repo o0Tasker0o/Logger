@@ -1,20 +1,21 @@
-﻿using System;
+﻿using LoggerLib;
+using System;
 
 namespace LoggerConsole
 {
     public class LogConsole : IConsole
     {
-        public String ReadLine()
+        public String GetInput()
         {
             return Console.ReadLine();
         }
 
-        public void WriteLine(String text)
+        public void OutputLine(String text)
         {
             Console.WriteLine(text);
         }
 
-        public void Write(String text)
+        public void Output(String text)
         {
             Console.Write(text);
         }

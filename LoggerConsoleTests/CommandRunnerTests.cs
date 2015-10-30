@@ -40,11 +40,11 @@ namespace LoggerConsoleTests
         [TestMethod]
         public void CommandRunnerExitsWhenReadingBlankLine()
         {
-            mMockConsole.ReadLine().Returns("");
+            mMockConsole.GetInput().Returns("");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(1).ReadLine();
+            mMockConsole.Received(1).GetInput();
             mMockLog.DidNotReceive().AddEntry(Arg.Any<LogEntry>());
         }
 
@@ -53,11 +53,11 @@ namespace LoggerConsoleTests
         {
             const string cEntryText = "This is a new log entry";
 
-            mMockConsole.ReadLine().Returns(cEntryText, "");
+            mMockConsole.GetInput().Returns(cEntryText, "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(2).ReadLine();
+            mMockConsole.Received(2).GetInput();
             mMockLog.Received(1).AddEntry(Arg.Is<LogEntry>(entry => entry.Text == cEntryText));
         }
 
@@ -111,14 +111,14 @@ namespace LoggerConsoleTests
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(searchCommand, searchText, startDate, endDate, "");
+            mMockConsole.GetInput().Returns(searchCommand, searchText, startDate, endDate, "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(5).ReadLine();
+            mMockConsole.Received(5).GetInput();
             mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(2).WriteLine(testEntry.Text);
+            mMockConsole.Received(2).OutputLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -145,14 +145,14 @@ namespace LoggerConsoleTests
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(">s", searchText, startDate.ToString(), endDate.ToString(), "");
+            mMockConsole.GetInput().Returns(">s", searchText, startDate.ToString(), endDate.ToString(), "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(5).ReadLine();
+            mMockConsole.Received(5).GetInput();
             mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(1).WriteLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
+            mMockConsole.Received(1).OutputLine(Arg.Is<string>(str => str.Contains(testEntry.Text)));
         }
 
         [TestMethod]
@@ -162,14 +162,14 @@ namespace LoggerConsoleTests
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(">s", testEntry.Text, "INVALID DATE 1", mYesterday.ToString(), mTomorrow.ToString(), "");
+            mMockConsole.GetInput().Returns(">s", testEntry.Text, "INVALID DATE 1", mYesterday.ToString(), mTomorrow.ToString(), "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(6).ReadLine();
+            mMockConsole.Received(6).GetInput();
             mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(2).WriteLine(testEntry.Text);
+            mMockConsole.Received(2).OutputLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -179,14 +179,14 @@ namespace LoggerConsoleTests
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(">s", testEntry.Text, mYesterday.ToString(), "INVALID DATE 1", mTomorrow.ToString(), "");
+            mMockConsole.GetInput().Returns(">s", testEntry.Text, mYesterday.ToString(), "INVALID DATE 1", mTomorrow.ToString(), "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(6).ReadLine();
+            mMockConsole.Received(6).GetInput();
             mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(2).WriteLine(testEntry.Text);
+            mMockConsole.Received(2).OutputLine(testEntry.Text);
         }
 
         [TestMethod]
@@ -197,15 +197,15 @@ namespace LoggerConsoleTests
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry1, testEntry2 };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(">s", "element1 element2", mYesterday.ToString(), mTomorrow.ToString(), "");
+            mMockConsole.GetInput().Returns(">s", "element1 element2", mYesterday.ToString(), mTomorrow.ToString(), "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(5).ReadLine();
+            mMockConsole.Received(5).GetInput();
             mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(2).WriteLine(testEntry1.Text);
-            mMockConsole.Received(2).WriteLine(testEntry2.Text);
+            mMockConsole.Received(2).OutputLine(testEntry1.Text);
+            mMockConsole.Received(2).OutputLine(testEntry2.Text);
         }
 
         [TestMethod]
@@ -217,55 +217,55 @@ namespace LoggerConsoleTests
             List<LogEntry> testEntries = new List<LogEntry>() { testEntry1, testEntry2, testEntry3 };
             mMockLog.GetEntries().Returns(testEntries);
 
-            mMockConsole.ReadLine().Returns(">s", "entry", mYesterday.ToString(), mTomorrow.ToString(), ">rs", "1", mYesterday.ToString(), mTomorrow.ToString(), "");
+            mMockConsole.GetInput().Returns(">s", "entry", mYesterday.ToString(), mTomorrow.ToString(), ">rs", "1", mYesterday.ToString(), mTomorrow.ToString(), "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(9).ReadLine();
+            mMockConsole.Received(9).GetInput();
             mMockLog.Received().GetEntries();
 
-            mMockConsole.Received(3).WriteLine(testEntry1.Text);
-            mMockConsole.Received(2).WriteLine(testEntry2.Text);
-            mMockConsole.Received(1).WriteLine(testEntry3.Text);
+            mMockConsole.Received(3).OutputLine(testEntry1.Text);
+            mMockConsole.Received(2).OutputLine(testEntry2.Text);
+            mMockConsole.Received(1).OutputLine(testEntry3.Text);
         }
 
         [TestMethod]
         public void TypingQuestionMarkPresentsListOfCommands()
         {
-            mMockConsole.ReadLine().Returns(">?", "");
+            mMockConsole.GetInput().Returns(">?", "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(2).ReadLine();
+            mMockConsole.Received(2).GetInput();
 
-            mMockConsole.Received().Write(Arg.Is<String>(line => line.StartsWith(">")));
+            mMockConsole.Received().Output(Arg.Is<String>(line => line.StartsWith(">")));
         }
 
         [TestMethod]
         public void TypingUnknownCommandShowsWarningAndPrintsListOfAvailableCommands()
         {
-            mMockConsole.ReadLine().Returns(">THISISNOTACOMMAND", "");
+            mMockConsole.GetInput().Returns(">THISISNOTACOMMAND", "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(2).ReadLine();
+            mMockConsole.Received(2).GetInput();
 
-            mMockConsole.Received(1).WriteLine("Unrecognised command. Please enter one of the following commands");
-            mMockConsole.Received().Write(Arg.Is<String>(line => line.StartsWith(">")));
+            mMockConsole.Received(1).OutputLine("Unrecognised command. Please enter one of the following commands");
+            mMockConsole.Received().Output(Arg.Is<String>(line => line.StartsWith(">")));
         }
 
         [TestMethod]
         public void TypingTodoCommandListsAllItemsInTodoList()
         {
             IEnumerable<TodoEntry> todoList = new List<TodoEntry>() { new TodoEntry("todo entry") };
-            mMockConsole.ReadLine().Returns(">t", "", "");
+            mMockConsole.GetInput().Returns(">t", "", "");
             mMockTodoList.GetEntries().Returns(todoList);
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(3).ReadLine();
+            mMockConsole.Received(3).GetInput();
             mMockTodoList.Received(1).GetEntries();
-            mMockConsole.Received(1).WriteLine("todo entry");
+            mMockConsole.Received(1).OutputLine("todo entry");
         }
 
         [TestMethod]
@@ -273,11 +273,11 @@ namespace LoggerConsoleTests
         {
             const string cEntryText = "This is a new log entry";
 
-            mMockConsole.ReadLine().Returns(">t", cEntryText, "", "");
+            mMockConsole.GetInput().Returns(">t", cEntryText, "", "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(4).ReadLine();
+            mMockConsole.Received(4).GetInput();
             mMockConsole.Received().Clear();
             mMockTodoList.Received(1).AddEntry(Arg.Is<TodoEntry>(entry => entry.Text == cEntryText));
         }
@@ -285,11 +285,11 @@ namespace LoggerConsoleTests
         [TestMethod]
         public void CommandRunnerParsesRemoveCommand()
         {
-            mMockConsole.ReadLine().Returns(">t", ">r", "0", "", "");
+            mMockConsole.GetInput().Returns(">t", ">r", "0", "", "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(5).ReadLine();
+            mMockConsole.Received(5).GetInput();
             mMockTodoList.DidNotReceive().AddEntry(Arg.Any<TodoEntry>());
             mMockTodoList.Received(1).RemoveEntry(0);
         }
@@ -304,11 +304,11 @@ namespace LoggerConsoleTests
 
         private void TestRemoveTodoItemErrorCases(string itemId)
         {
-            mMockConsole.ReadLine().Returns(">t", ">r", itemId, "", "");
+            mMockConsole.GetInput().Returns(">t", ">r", itemId, "", "");
 
             CommandRunner runner = new CommandRunner(mMockConsole, mMockLog, mMockTodoList);
 
-            mMockConsole.Received(5).ReadLine();
+            mMockConsole.Received(5).GetInput();
             mMockTodoList.DidNotReceive().AddEntry(Arg.Any<TodoEntry>());
             mMockTodoList.DidNotReceive().RemoveEntry(Arg.Any<uint>());
 
