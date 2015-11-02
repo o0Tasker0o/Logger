@@ -260,6 +260,8 @@ namespace LoggerLibTests
             mockConsole.Received(1).OutputLine("(UNAVAILABLE) Search previous results");
             mockConsole.Received(1).OutputLine("Enter TODO list");
             mockConsole.Received(1).OutputLine("Display help");
+
+            Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadState));
         }
 
         [TestMethod]
@@ -279,6 +281,8 @@ namespace LoggerLibTests
             mockConsole.Received(1).OutputLine("(UNAVAILABLE) Search previous results");
             mockConsole.Received(1).OutputLine("Enter TODO list");
             mockConsole.Received(1).OutputLine("Display help");
+
+            Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadState));
         }
 
         [TestMethod]

@@ -18,7 +18,7 @@ namespace LoggerLib
 
             if (input.StartsWith(">"))
             {
-                mNextState = new CommandState(mConsole, mLog, mTodoList);
+                mNextState = new CommandTodoState(mConsole, mLog, mTodoList);
                 mNextState.Input = input.Remove(0, 1);
             }
             else if(!string.IsNullOrEmpty(input))

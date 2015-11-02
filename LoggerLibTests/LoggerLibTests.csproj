@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CommandTodoStateTests.cs" />
     <Compile Include="DisplayTodoListHeaderStateTests.cs" />
     <Compile Include="LogEntryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="StoreStateTests.cs" />
     <Compile Include="CommandStateTests.cs" />
     <Compile Include="DisplayLogHeaderStateTests.cs" />
+    <Compile Include="RemoveTodoItemStateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoggerLib\LoggerLib.csproj">
