@@ -19,7 +19,7 @@ namespace LoggerLib
 
             if (input.StartsWith(">"))
             {
-                SetNextState(typeof(CommandState));
+                SetNextState(typeof(CommandLogState));
                 mNextState.Input = input.Remove(0, 1);
             }
             else if(!string.IsNullOrEmpty(input))

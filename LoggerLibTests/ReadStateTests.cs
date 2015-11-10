@@ -106,7 +106,7 @@ namespace LoggerLibTests
             state.Execute();
 
             State nextState = state.GetNextState();
-            Assert.IsInstanceOfType(nextState, typeof(CommandState));
+            Assert.IsInstanceOfType(nextState, typeof(CommandLogState));
             Assert.AreEqual("COMMANDSTRING", nextState.Input);
         }
 

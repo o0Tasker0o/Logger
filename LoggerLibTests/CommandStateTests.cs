@@ -16,7 +16,7 @@ namespace LoggerLibTests
             IConsole mockConsole = Substitute.For<IConsole>();
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
 
             Assert.IsInstanceOfType(state.GetNextState(), typeof(ReadState));
         }
@@ -36,7 +36,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -68,7 +68,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -94,7 +94,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -119,7 +119,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -144,7 +144,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -168,7 +168,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -198,7 +198,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -228,7 +228,7 @@ namespace LoggerLibTests
 
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "s";
 
             state.Execute();
@@ -250,7 +250,7 @@ namespace LoggerLibTests
             IConsole mockConsole = Substitute.For<IConsole>();
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "UNKNOWN COMMAND";
 
             state.Execute();
@@ -271,7 +271,7 @@ namespace LoggerLibTests
             IConsole mockConsole = Substitute.For<IConsole>();
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "?";
 
             state.Execute();
@@ -292,7 +292,7 @@ namespace LoggerLibTests
             IConsole mockConsole = Substitute.For<IConsole>();
             ITodoList mockTodoList = Substitute.For<ITodoList>();
 
-            CommandState state = new CommandState(mockConsole, mockLog, mockTodoList);
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
             state.Input = "t";
 
             state.Execute();

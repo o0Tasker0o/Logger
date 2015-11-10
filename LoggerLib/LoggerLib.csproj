@@ -57,8 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FiniteStateMachine\CommandTodoState.cs" />
     <Compile Include="FiniteStateMachine\CommandState.cs" />
+    <Compile Include="FiniteStateMachine\CommandTodoState.cs" />
+    <Compile Include="FiniteStateMachine\CommandLogState.cs" />
     <Compile Include="FiniteStateMachine\DisplayLogHeaderState.cs" />
     <Compile Include="FiniteStateMachine\DisplayTodoListHeaderState.cs" />
     <Compile Include="IConsole.cs" />
