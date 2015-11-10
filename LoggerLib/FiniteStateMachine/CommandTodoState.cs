@@ -15,7 +15,9 @@ namespace LoggerLib
             AddSubCommand("r", "Remove todo list entry", DeleteEntry);
             AddSubCommand("?", "Display help", DisplayHelp);
 
-            mNextState = new ReadTodoState(console, log, todoList);
+            SetNextState(typeof(ReadTodoState));
+
+            RegisterState(typeof(CommandTodoState), this);
         }
 
         private void AddSubCommand(string commandString, string helpText, Action command)
@@ -39,7 +41,7 @@ namespace LoggerLib
         
         private void DeleteEntry()
         {
-            mNextState = new RemoveTodoItemState(mConsole, mLog, mTodoList);
+            SetNextState(typeof(RemoveTodoItemState));
         }
 
         private void DisplayHelp()

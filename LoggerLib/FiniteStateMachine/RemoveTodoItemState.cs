@@ -6,7 +6,9 @@ namespace LoggerLib
     {
         public RemoveTodoItemState(IConsole console, ILog log, ITodoList todoList) : base (console, log, todoList)
         {
-            mNextState = new ReadTodoState(console, log, todoList);
+            SetNextState(typeof(ReadTodoState));
+
+            RegisterState(typeof(RemoveTodoItemState), this);
         }
 
         public override void Execute()

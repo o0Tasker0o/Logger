@@ -6,6 +6,7 @@ namespace LoggerLib
     {
         public ReadState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
+            RegisterState(typeof(ReadState), this);
         }
 
         public override void Execute()
@@ -18,12 +19,12 @@ namespace LoggerLib
 
             if (input.StartsWith(">"))
             {
-                mNextState = new CommandState(mConsole, mLog, mTodoList);
+                SetNextState(typeof(CommandState));
                 mNextState.Input = input.Remove(0, 1);
             }
             else if(!string.IsNullOrEmpty(input))
             {
-                mNextState = new StoreState(mConsole, mLog, mTodoList);
+                SetNextState(typeof(StoreState));
                 mNextState.Input = input;
             }
             else

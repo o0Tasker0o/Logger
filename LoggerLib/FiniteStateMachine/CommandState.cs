@@ -18,7 +18,8 @@ namespace LoggerLib
             AddSubCommand("t", "Enter TODO list", EnterTodoList);
             AddSubCommand("?", "Display help", DisplayHelp);
 
-            mNextState = new ReadState(console, log, todoList);
+            RegisterState(typeof(CommandState), this);
+            SetNextState(typeof(ReadState));
         }
 
         private void AddSubCommand(string commandString, string helpText, Action command)
@@ -42,7 +43,7 @@ namespace LoggerLib
 
         private void EnterTodoList()
         {
-            mNextState = new DisplayTodoListHeaderState(mConsole, mLog, mTodoList);
+            SetNextState(typeof(DisplayTodoListHeaderState));
         }
 
         private void SearchEntries()
@@ -74,6 +75,7 @@ namespace LoggerLib
             mConsole.OutputLine("");
             mConsole.OutputLine("End of logs. Type to make another entry");
             mConsole.SetColour(ConsoleColor.Gray);
+            SetNextState(typeof(ReadState));
         }
 
         private void DisplayHelp()
@@ -87,6 +89,7 @@ namespace LoggerLib
             }
 
             mConsole.SetColour(ConsoleColor.Gray);
+            SetNextState(typeof(ReadState));
         }
 
         private DateTime GetDate(string instruction, DateTime defaultDate)

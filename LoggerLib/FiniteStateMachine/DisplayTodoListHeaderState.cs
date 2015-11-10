@@ -10,7 +10,9 @@ namespace LoggerLib
     {
         public DisplayTodoListHeaderState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
-            mNextState = new ReadTodoState(console, log, todoList);
+            SetNextState(typeof(ReadTodoState));
+
+            RegisterState(typeof(DisplayTodoListHeaderState), this);
         }
 
         public override void Execute()

@@ -6,7 +6,9 @@ namespace LoggerLib
     {
         public StoreState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
-            mNextState = new ReadState(console, log, mTodoList);
+            SetNextState(typeof(ReadState));
+
+            RegisterState(typeof(StoreState), this);
         }
 
         public override void Execute()
