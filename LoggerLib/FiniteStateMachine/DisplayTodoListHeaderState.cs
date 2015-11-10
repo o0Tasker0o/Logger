@@ -26,7 +26,7 @@ namespace LoggerLib
             mConsole.OutputLine(@"                   /_/  \____/____/\____/ /____/_/___/\__/");
             mConsole.OutputLine("");
 
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.OutputLine("Type to make an entry. Hit enter to return to logger");
 
             UInt32 entryIndex = 0;
@@ -41,7 +41,7 @@ namespace LoggerLib
                 ++entryIndex;
             }
 
-            Console.ForegroundColor = ConsoleColor.Gray;
+            mConsole.SetColour(ConsoleColor.Gray);
         }
     }
 }

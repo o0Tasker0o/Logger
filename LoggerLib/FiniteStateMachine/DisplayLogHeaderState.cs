@@ -24,7 +24,7 @@ namespace LoggerLib
             mConsole.OutputLine(@"                                  /___//___/");
             mConsole.OutputLine("");
 
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.OutputLine("Type to make an entry. Type '>?' for a list of commands or hit Enter to exit.");
             var logEntries = from logEntry in mLog.GetEntries()
                              where logEntry.CreatedTime > DateTime.Now.Date
