@@ -72,7 +72,7 @@
     <Compile Include="TodoEntryTests.cs" />
     <Compile Include="ReadStateTests.cs" />
     <Compile Include="StoreStateTests.cs" />
-    <Compile Include="CommandStateTests.cs" />
+    <Compile Include="CommandLogStateTests.cs" />
     <Compile Include="DisplayLogHeaderStateTests.cs" />
     <Compile Include="RemoveTodoItemStateTests.cs" />
   </ItemGroup>

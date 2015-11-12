@@ -7,10 +7,10 @@ using System.Collections.Generic;
 namespace LoggerLibTests
 {
     [TestClass]
-    public class CommandStateTests
+    public class CommandLogStateTests
     {
         [TestMethod]
-        public void CommandStateReturnsReadState()
+        public void CommandLogStateReturnsReadState()
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
@@ -22,7 +22,7 @@ namespace LoggerLibTests
         }
         
         [TestMethod]
-        public void CommandStateSearchesEntriesWhenGivenSearchString()
+        public void CommandLogStateSearchesEntriesWhenGivenSearchString()
         {
             LogEntry entry = new LogEntry("search term");
             List<LogEntry> logEntries = new List<LogEntry>() { entry };
@@ -52,7 +52,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateFindsEntriesMatchingSearchTerms()
+        public void CommandLogStateFindsEntriesMatchingSearchTerms()
         {
             LogEntry searchableEntry = new LogEntry("search term");
             LogEntry unsearchableEntry = new LogEntry("Nothing here");
@@ -78,7 +78,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateFindsEntriesMatchingSearchTermsCaseInsensitive()
+        public void CommandLogStateFindsEntriesMatchingSearchTermsCaseInsensitive()
         {
             LogEntry searchableEntry = new LogEntry("SeArCh TeRm");
             LogEntry unsearchableEntry = new LogEntry("Nothing here");
@@ -104,7 +104,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateFindsEntriesFromStartDate()
+        public void CommandLogStateFindsEntriesFromStartDate()
         {
             LogEntry searchableEntry = new LogEntry("search term");
             List<LogEntry> logEntries = new List<LogEntry>() { searchableEntry };
@@ -129,7 +129,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateFindsEntriesFromEndDate()
+        public void CommandLogStateFindsEntriesToEndDate()
         {
             LogEntry searchableEntry = new LogEntry("search term");
             List<LogEntry> logEntries = new List<LogEntry>() { searchableEntry };
@@ -154,7 +154,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateRequestsStartDateUntilValidDateProvided()
+        public void CommandLogStateRequestsStartDateUntilValidDateProvided()
         {
             LogEntry entry = new LogEntry("search term");
             List<LogEntry> logEntries = new List<LogEntry>() { entry };
@@ -184,7 +184,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateRequestsEndDateUntilValidDateProvided()
+        public void CommandLogStateRequestsEndDateUntilValidDateProvided()
         {
             LogEntry entry = new LogEntry("search term");
             List<LogEntry> logEntries = new List<LogEntry>() { entry };
@@ -214,7 +214,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateSearchesAllEntriesIfNoDatesSpecified()
+        public void CommandLogStateSearchesAllEntriesIfNoDatesSpecified()
         {
             LogEntry entry = new LogEntry("search term");
             List<LogEntry> logEntries = new List<LogEntry>() { entry };
@@ -244,7 +244,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateHandlesUnknownCommandStrings()
+        public void CommandLogStateHandlesUnknownCommandStrings()
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
@@ -257,7 +257,7 @@ namespace LoggerLibTests
 
             mockConsole.Received(1).OutputLine("Unrecognised command. Please enter one of the following commands");
             mockConsole.Received(2).OutputLine("Search log entries");
-            mockConsole.Received(1).OutputLine("(UNAVAILABLE) Search previous results");
+            mockConsole.Received(1).OutputLine("Search previous results");
             mockConsole.Received(1).OutputLine("Enter TODO list");
             mockConsole.Received(1).OutputLine("Display help");
 
@@ -265,7 +265,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateDisplaysHelpOnQuestionMark()
+        public void CommandLogStateDisplaysHelpOnQuestionMark()
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
@@ -278,7 +278,7 @@ namespace LoggerLibTests
 
             mockConsole.Received(0).OutputLine("Unrecognised command. Please enter one of the following commands");
             mockConsole.Received(2).OutputLine("Search log entries");
-            mockConsole.Received(1).OutputLine("(UNAVAILABLE) Search previous results");
+            mockConsole.Received(1).OutputLine("Search previous results");
             mockConsole.Received(1).OutputLine("Enter TODO list");
             mockConsole.Received(1).OutputLine("Display help");
 
@@ -286,7 +286,7 @@ namespace LoggerLibTests
         }
 
         [TestMethod]
-        public void CommandStateReturnsTodoListState()
+        public void CommandLogStateReturnsTodoListState()
         {
             ILog mockLog = Substitute.For<ILog>();
             IConsole mockConsole = Substitute.For<IConsole>();
@@ -298,6 +298,69 @@ namespace LoggerLibTests
             state.Execute();
 
             Assert.IsInstanceOfType(state.GetNextState(), typeof(DisplayTodoListHeaderState));
+        }
+
+        [TestMethod]
+        public void CommandLogStateCanSearchPreviouslyReturnedResults()
+        {
+            List<LogEntry> logEntries = new List<LogEntry>() { new LogEntry("search term a"), 
+                                                               new LogEntry("search term b"), 
+                                                               new LogEntry("other text b") };
+            ILog mockLog = Substitute.For<ILog>();
+            mockLog.GetEntries().Returns(logEntries);
+
+            IConsole mockConsole = Substitute.For<IConsole>();
+
+            mockConsole.GetInput().Returns("search term", "", "");
+
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
+            state.Input = "s";
+
+            state.Execute();
+
+            mockConsole.Received(1).OutputLine("search term a");
+            mockConsole.Received(1).OutputLine("search term b");
+            mockConsole.DidNotReceive().OutputLine("other text b");
+
+            mockConsole.ClearReceivedCalls();
+
+            mockConsole.GetInput().Returns("b", "", "");
+            state.Input = "rs";
+
+            state.Execute();
+
+            mockConsole.DidNotReceive().OutputLine("search term a");
+            mockConsole.Received(1).OutputLine("search term b");
+            mockConsole.DidNotReceive().OutputLine("other text b");
+        }
+
+        [TestMethod]
+        public void CommandLogStateSearchesAllResultsIfRecursiveSearchIsCalledBeforeStandardSearch()
+        {
+            List<LogEntry> logEntries = new List<LogEntry>() { new LogEntry("search term a"), 
+                                                               new LogEntry("search term b"), 
+                                                               new LogEntry("other text b") };
+            ILog mockLog = Substitute.For<ILog>();
+            mockLog.GetEntries().Returns(logEntries);
+
+            IConsole mockConsole = Substitute.For<IConsole>();
+
+            mockConsole.GetInput().Returns("search term", "", "");
+
+            ITodoList mockTodoList = Substitute.For<ITodoList>();
+
+            CommandLogState state = new CommandLogState(mockConsole, mockLog, mockTodoList);
+
+            mockConsole.GetInput().Returns("b", "", "");
+            state.Input = "rs";
+
+            state.Execute();
+
+            mockConsole.DidNotReceive().OutputLine("search term a");
+            mockConsole.Received(1).OutputLine("search term b");
+            mockConsole.Received(1).OutputLine("other text b");
         }
     }
 }

@@ -6,15 +6,19 @@ namespace LoggerLib
 {
     public class CommandLogState : CommandState
     {
+        private IEnumerable<LogEntry> mPreviousSearchResults;
+
         public CommandLogState(IConsole console, ILog log, ITodoList todoList) : base(console, log, todoList)
         {
             AddSubCommand("s", "Search log entries", SearchEntries);
             AddSubCommand("", "Search log entries", SearchEntries);
-            AddSubCommand("rs", "(UNAVAILABLE) Search previous results", null);
+            AddSubCommand("rs", "Search previous results", SearchPreviousSearchResults);
             AddSubCommand("t", "Enter TODO list", EnterTodoList);
 
             RegisterState(typeof(CommandLogState), this);
             SetNextState(typeof(ReadState));
+
+            mPreviousSearchResults = mLog.GetEntries();
         }
 
         private void EnterTodoList()
@@ -24,6 +28,16 @@ namespace LoggerLib
 
         private void SearchEntries()
         {
+            SearchEntries(mLog.GetEntries());
+        }
+
+        private void SearchPreviousSearchResults()
+        {
+            SearchEntries(mPreviousSearchResults);
+        }
+
+        private void SearchEntries(IEnumerable<LogEntry> availableEntries)
+        {
             mConsole.SetColour(ConsoleColor.DarkCyan);
             mConsole.Output("Please enter the term you wish to search for: ");
             mConsole.SetColour(ConsoleColor.Gray);
@@ -32,14 +46,14 @@ namespace LoggerLib
             DateTime startDate = GetDate("Please enter the date to start searching from: ", new DateTime(1, 1, 1));
             DateTime endDate = GetDate("Please enter the date to search up to: ", DateTime.Now);
 
-            IEnumerable<LogEntry> searchedEntries = from logEntry in mLog.GetEntries()
-                                                    where searchTerms.Any(logEntry.Text.ToLower().Contains) &&
-                                                    logEntry.CreatedTime >= startDate &&
-                                                    logEntry.CreatedTime <= endDate
-                                                    orderby logEntry.CreatedTime
-                                                    select logEntry;
+            mPreviousSearchResults = from logEntry in availableEntries
+                                     where searchTerms.Any(logEntry.Text.ToLower().Contains) &&
+                                     logEntry.CreatedTime >= startDate &&
+                                     logEntry.CreatedTime <= endDate
+                                     orderby logEntry.CreatedTime
+                                     select logEntry;
 
-            foreach(LogEntry entry in searchedEntries)
+            foreach(LogEntry entry in mPreviousSearchResults)
             {
                 mConsole.SetColour(ConsoleColor.Green);
                 mConsole.Output(entry.CreatedTime.ToString("dd/MM/yy HH:mm> "));
